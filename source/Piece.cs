@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace source
 {
     abstract class Piece
@@ -20,9 +23,13 @@ namespace source
 
     class Pawn : Piece
     {
+        public Pawn(bool white, int x_in, int y_in) : base(white, x_in, y_in)
+        {
+
+        }
         public override int[,] CanMoveTo()
         {
-            if(this.isWhite)
+            if(isWhite)
             {
                 return new int[3, 2] { { x - 1, y + 1 }, { x, y + 1 }, { x + 1, y + 1 } };
             } else
@@ -35,6 +42,10 @@ namespace source
 
     class Rook : Piece
     {
+        public Rook(bool white, int x_in, int y_in) : base(white, x_in, y_in)
+        {
+
+        }
         public override int[,] CanMoveTo()
         {
             int[,] returns = new int[14, 2];
@@ -63,6 +74,10 @@ namespace source
 
     class Knight : Piece
     {
+        public Knight(bool white, int x_in, int y_in) : base(white, x_in, y_in)
+        {
+
+        }
         public override int[,] CanMoveTo()
         {
            return new int[8, 2] { { x - 1, y + 2 }, { x + 1, y + 2 }, { x - 1, y - 2 }, { x + 1, y - 2 }, { x - 2, y + 1 }, { x - 2, y - 1 }, { x + 2, y + 1 }, { x + 2, y - 1 } };
@@ -71,70 +86,160 @@ namespace source
 
     class Bishop : Piece
     {
+        public Bishop(bool white, int x_in, int y_in) : base(white, x_in, y_in)
+        {
+
+        }
         public override int[,] CanMoveTo()
         {
             Logic logic = new Logic();
-            bool IsTile(int x, int y)
-            {
-                return !(x < 0 || x > 7 || y < 0 || y > 7);
-            }
 
-            List<int[]> returns = new List<int[2]>();
-            
+            List<int[]> list = new List<int[]>();
+
             int i = 1, j = 1;
-            
+
             while (logic.IsTile(x + i, y + j))
             {
-                returns.Add(x + i, y + j);
+                list.Add(new int[] { x + i, y + j });
                 i++; j++;
             }
-           
-            int i = -1, j = 1;
+
+            i = -1; j = 1;
 
             while (logic.IsTile(x + i, y + j))
             {
-                returns.Add(x + i, y + j);
+                list.Add(new int[] { x + i, y + j });
                 i--; j++;
             }
 
-            int i = -1, j = -1;
+            i = -1; j = -1;
 
             while (logic.IsTile(x + i, y + j))
             {
-                returns.Add(x + i, y + j);
+                list.Add(new int[] { x + i, y + j });
                 i--; j--;
             }
 
-            int i = 1, j = -1;
+            i = 1; j = -1;
 
             while (logic.IsTile(x + i, y + j))
             {
-                returns.Add(x + i, y + j);
+                list.Add(new int[] { x + i, y + j });
                 i++; j--;
             }
 
-            return returns.toArray;
-        }
+            int l = list.Count;
+            int[,] returns = new int[l, 2];
 
+            for (int ii = 0; ii < l; ii++)
+            {
+                returns[ii, 0] = list[ii][0];
+                returns[ii, 1] = list[ii][1];
+            }
+
+            return returns;
+        }
     }
 
     class Queen : Piece
     {
-        private Rook rook = new Rook();
-        private Bishop bishop = new Bishop();
+        public Queen(bool white, int x_in, int y_in) : base(white, x_in, y_in)
+        {
+
+        }
+        int[,] RookCanMoveTo()
+        {
+            int[,] returns = new int[14, 2];
+            int j = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if (i != x)
+                {
+                    returns[j, 0] = i;
+                    returns[j, 1] = y;
+                }
+                j++;
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                if (i != y)
+                {
+                    returns[j, 0] = x;
+                    returns[j, 1] = i;
+                }
+                j++;
+            }
+            return returns;
+        }
+        int[,] BishopCanMoveTo()
+        {
+            Logic logic = new Logic();
+
+            List<int[]> list = new List<int[]>();
+
+            int i = 1, j = 1;
+
+            while (logic.IsTile(x + i, y + j))
+            {
+                list.Add(new int[] { x + i, y + j });
+                i++; j++;
+            }
+
+            i = -1; j = 1;
+
+            while (logic.IsTile(x + i, y + j))
+            {
+                list.Add(new int[] { x + i, y + j });
+                i--; j++;
+            }
+
+            i = -1; j = -1;
+
+            while (logic.IsTile(x + i, y + j))
+            {
+                list.Add(new int[] { x + i, y + j });
+                i--; j--;
+            }
+
+            i = 1; j = -1;
+
+            while (logic.IsTile(x + i, y + j))
+            {
+                list.Add(new int[] { x + i, y + j });
+                i++; j--;
+            }
+
+            int l = list.Count;
+            int[,] returns = new int[l, 2];
+
+            for (int ii = 0; ii < l; ii++)
+            {
+                returns[ii, 0] = list[ii][0];
+                returns[ii, 1] = list[ii][1];
+            }
+
+            return returns;
+        }
+
         public override int[,] CanMoveTo()
         {
-            int[,] arr1 = rook.CanMoveTo();
-            int[,] arr2 = bishop.CanMoveTo();
-            int l = arr1.Length;
-            Array.Resize<int>(ref arr1, l + arr2.Length);
-            Array.Copy(arr2, 0, arr1, l, arr2.Length);
-            return arr1;
+
+            int[,] arr1 = RookCanMoveTo();
+            int[,] arr2 = BishopCanMoveTo();
+            int[,] returns = new int[arr1.Length + arr2.Length, 2];
+            Array.Copy(arr1, returns, arr1.Length);
+            Array.Copy(arr2, 0, returns, arr1.Length, arr2.Length);
+
+            return returns;
         }
     }
 
     class King : Piece
     {
+        public King(bool white, int x_in, int y_in) : base(white, x_in, y_in)
+        {
+
+        }
         public override int[,] CanMoveTo()
         {
             return new int[8, 2] { { x - 1, y }, { x + 1, y }, { x, y + 1 }, { x, y - 1 }, { x - 1, y + 1 }, { x + 1, y + 1 }, { x + 1, y - 1 }, { x - 1, y - 1 } };

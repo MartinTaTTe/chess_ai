@@ -17,7 +17,7 @@ namespace source
 
         void ResetGame
         {
-
+            board.
         }
     }
 }
