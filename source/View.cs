@@ -11,10 +11,11 @@ namespace source
 
         public string Show()
         {
-            string returns = "";
+            string returns = "  A  B  C  D  E  F  G  H \n";
 
             for (int j = 0; j < 8; j++)
             {
+                returns += 8 - j;
                 for (int i = 0; i < 8; i++)
                 {
                     if (game.PieceAt(i, j) == null)

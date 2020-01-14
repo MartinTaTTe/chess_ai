@@ -39,23 +39,27 @@ namespace source
 
         private bool MakePlay(string input)
         {
-            if (!(input[0] >= '1' && input[0] <= '8' &&
-                input[1] >= 'a' && input[1] <= 'h' &&
-                input[2] >= '1' && input[2] <= '8' &&
-                input[3] >= 'a' && input[3] <= 'h'))
+            if (!(input[0] >= 'a' && input[0] <= 'h' &&
+                input[1] >= '1' && input[1] <= '8' &&
+                input[2] >= 'a' && input[2] <= 'h'&&
+                input[3] >= '1' && input[3] <= '8'))
             {
                 return false;
             }
             else
             {
-                int x_org = input[0] - 49;
-                int y_org = input[1] - 97;
-                int x_des = input[2] - 49;
-                int y_des = input[3] - 97;
-                if (board.IsOccupiedAt(x_org, y_org) && OwnPiece(x_org, y_org) && board.CanMoveTo(x_org, y_org, x_des, y_des))
+                int x_org = input[0] - 97;
+                int y_org = 56 - input[1];
+                int x_des = input[2] - 97;
+                int y_des = 56 - input[3];
+                bool a = board.IsOccupiedAt(x_org, y_org);
+                bool b = OwnPiece(x_org, y_org);
+                bool c = board.CanMoveTo(x_org, y_org, x_des, y_des);
+                if (a && b && c) //TODO: can't kill enemy piece
                 {
                     board.MovePiece(x_org, y_org, x_des, y_des);
                     whiteTurn = !whiteTurn;
+                    return true;
                 }
                 return false;
             }
