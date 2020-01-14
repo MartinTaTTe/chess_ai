@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Auzer\\source\\repos\\Chess AI\\Chess AI.csproj",
+      "projectUniqueName": "C:\\Users\\Auzer\\source\\repos\\chess_ai\\source\\Chess AI.csproj",
       "projectName": "Chess AI",
-      "projectPath": "C:\\Users\\Auzer\\source\\repos\\Chess AI\\Chess AI.csproj",
+      "projectPath": "C:\\Users\\Auzer\\source\\repos\\chess_ai\\source\\Chess AI.csproj",
       "packagesPath": "C:\\Users\\Auzer\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Auzer\\source\\repos\\Chess AI\\obj\\",
+      "outputPath": "C:\\Users\\Auzer\\source\\repos\\chess_ai\\source\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Auzer\\AppData\\Roaming\\NuGet\\NuGet.Config",

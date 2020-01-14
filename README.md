@@ -1,2 +1,1 @@
-# chess_ai
-AI in chess
+This is a work in progress for a simple chess game (no UI) where AI can easily be implemented.

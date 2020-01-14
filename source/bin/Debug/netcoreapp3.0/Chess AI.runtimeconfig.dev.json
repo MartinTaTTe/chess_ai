@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Auzer\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Auzer\\.nuget\\packages"
+    ]
+  }
+}

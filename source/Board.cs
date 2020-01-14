@@ -16,9 +16,40 @@ namespace source
 
         private Piece[,] pieces = new Piece[8, 8];
 
-        void ResetBoard()
+        public void ResetBoard()
         {
             defaultPieces.CopyTo(pieces, 0);
+        }
+
+        void WhitePlays()
+        {
+
+        }
+
+        public bool IsOccupiedAt(int x, int y)
+        {
+            return pieces[x, y] != null;
+        }
+
+        public Piece PieceAt(int x, int y)
+        {
+            return pieces[x, y];
+        }
+
+        public void MovePiece(int x_org, int y_org, int x_des, int y_des)
+        {
+            pieces[x_des, y_des] = pieces[x_org, y_org];
+            pieces[x_org, y_org] = null;
+        }
+
+        public void RemovePiece(int x, int y)
+        {
+            pieces[x, y] = null;
+        }
+
+        public void AddPiece(Piece piece, int x, int y)
+        {
+            pieces[x, y] = piece;
         }
     }
 }

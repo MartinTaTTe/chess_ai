@@ -1,0 +1,11 @@
+C:\Users\Auzer\source\repos\chess_ai\source\bin\Debug\netcoreapp3.0\Chess AI.exe
+C:\Users\Auzer\source\repos\chess_ai\source\bin\Debug\netcoreapp3.0\Chess AI.deps.json
+C:\Users\Auzer\source\repos\chess_ai\source\bin\Debug\netcoreapp3.0\Chess AI.runtimeconfig.json
+C:\Users\Auzer\source\repos\chess_ai\source\bin\Debug\netcoreapp3.0\Chess AI.runtimeconfig.dev.json
+C:\Users\Auzer\source\repos\chess_ai\source\bin\Debug\netcoreapp3.0\Chess AI.dll
+C:\Users\Auzer\source\repos\chess_ai\source\bin\Debug\netcoreapp3.0\Chess AI.pdb
+C:\Users\Auzer\source\repos\chess_ai\source\obj\Debug\netcoreapp3.0\Chess AI.csprojAssemblyReference.cache
+C:\Users\Auzer\source\repos\chess_ai\source\obj\Debug\netcoreapp3.0\Chess AI.AssemblyInfoInputs.cache
+C:\Users\Auzer\source\repos\chess_ai\source\obj\Debug\netcoreapp3.0\Chess AI.AssemblyInfo.cs
+C:\Users\Auzer\source\repos\chess_ai\source\obj\Debug\netcoreapp3.0\Chess AI.dll
+C:\Users\Auzer\source\repos\chess_ai\source\obj\Debug\netcoreapp3.0\Chess AI.pdb

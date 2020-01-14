@@ -15,9 +15,9 @@ namespace source
             board = board_in;
         }
 
-        void ResetGame
+        public void ResetGame()
         {
-            board.
+            board.ResetBoard();
         }
     }
 }

@@ -1,8 +1,12 @@
 namespace source
 {
-    object Main()
+    class View
     {
-        Game game = new Game();
-        Console.WriteLine("Hello World!");
+        Game game = new Game(new Player(), new Player(), new Board());
+
+        public string Show()
+        {
+            return "Game of Chess";
+        }
     }
 }

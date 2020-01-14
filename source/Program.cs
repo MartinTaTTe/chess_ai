@@ -1,12 +1,13 @@
 ﻿using System;
 
-namespace Chess_AI
+namespace source
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            View view = new View();
+            Console.WriteLine(view.Show());
         }
     }
 }
