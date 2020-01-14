@@ -5,7 +5,6 @@ namespace source
 {
     abstract class Piece
     {
-        protected bool alive = true;
         protected int x, y;
         protected bool isWhite;
 
