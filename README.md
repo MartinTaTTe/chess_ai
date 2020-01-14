@@ -1,1 +1,1 @@
-This is a work in progress for a simple chess game (no UI) where AI can easily be implemented.
+This is a work in progress for a simple chess game (no GUI) where AI can easily be implemented.
