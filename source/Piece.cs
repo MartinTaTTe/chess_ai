@@ -17,6 +17,10 @@ namespace source
         }
 
         public abstract int[,] CanMoveTo();
+        public bool IsWhite()
+        {
+            return isWhite;
+        }
 
     }
 

@@ -1,3 +1,5 @@
+using System;
+
 namespace source
 {
     class Board
@@ -6,7 +8,7 @@ namespace source
         {
             ResetBoard();
         }
-        private Piece[,] defaultPieces = new Piece[8, 8]
+        private readonly Piece[,] defaultPieces = new Piece[8, 8]
         {
             { new Rook(true, 0, 0), new Knight(true, 1, 0), new Bishop(true, 2, 0), new Queen(true, 3, 0), new King(true, 4, 0), new Bishop(true, 5 ,0), new Knight(true, 6, 0), new Rook(true, 7, 0) },
             { new Pawn(true, 0, 1), new Pawn(true, 1, 1), new Pawn(true, 2, 1), new Pawn(true, 3, 1), new Pawn(true, 4, 1), new Pawn(true, 5, 1), new Pawn(true, 6, 1), new Pawn(true, 7, 1) },
@@ -39,39 +41,62 @@ namespace source
 
         public Piece PieceAt(int x, int y)
         {
+            try
+            {
+                if (pieces[y, x] == null)
+                {
+                    throw new ArgumentNullException();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+            
             return pieces[y, x];
         }
 
         public bool CanMoveTo(int x_org, int y_org, int x_des, int y_des)
         {
-            switch (pieces[y_org, x_org].GetType().ToString())
-            {
-                case "source.Pawn":
-                    {
-                        return false;
-                    }
-                case "source.Rook":
-                    {
-                        return false;
-                    }
-                case "source.Knight":
-                    {
-                        return false;
-                    }
-                case "source.Bishop":
-                    {
-                        return false;
-                    }
-                case "source.Queen":
-                    {
-                        return false;
-                    }
-                case "source.King":
-                    {
-                        return false;
-                    }
-                default: return false;
+            bool returns = false;
+            if (IsOccupiedAt(x_org, y_org))
+            { 
+                switch (pieces[y_org, x_org].GetType().ToString())
+                {
+                    case "source.Pawn":
+                        {
+                            returns = true;
+                            break;
+                        }
+                    case "source.Rook":
+                        {
+                            returns = true;
+                            break;
+                        }
+                    case "source.Knight":
+                        {
+                            returns = true;
+                            break;
+                        }
+                    case "source.Bishop":
+                        {
+                            returns = true;
+                            break;
+                        }
+                    case "source.Queen":
+                        {
+                            returns = true;
+                            break;
+                        }
+                    case "source.King":
+                        {
+                            returns = true;
+                            break;
+                        }
+                    default: break;
+                }
             }
+            return returns;
         }
 
         public void MovePiece(int x_org, int y_org, int x_des, int y_des)
