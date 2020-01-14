@@ -1,0 +1,7 @@
+namespace source
+{
+    class Player
+    {
+
+    }
+}
