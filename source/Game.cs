@@ -4,7 +4,7 @@ namespace source
     {
         private Player white;
         private Player black;
-        private Board board = new Board();
+        private readonly Board board = new Board();
         private bool playing = true;
         private bool whiteTurn = true;
         public Game(Player white_in, Player black_in, Board board_in)
@@ -21,7 +21,7 @@ namespace source
 
         public bool OwnPiece(int x, int y)
         {
-            return !(whiteTurn ^ board.PieceAt(x, y).IsWhite());
+            return board.IsOccupiedAt(x, y) && !(whiteTurn ^ board.GetPieceAt(x, y).IsWhite());
         }
 
         public bool Playing()
@@ -32,7 +32,7 @@ namespace source
         public Piece PieceAt(int x, int y)
         {
             if (board.IsOccupiedAt(x, y))
-                return board.PieceAt(x, y);
+                return board.GetPieceAt(x, y);
             else return null;
         }
 

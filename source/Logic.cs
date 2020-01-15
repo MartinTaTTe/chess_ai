@@ -8,7 +8,6 @@ namespace source
         {
             
         }
-        public int integer;
         public bool IsTile(int x, int y)
         {
             return !(x < 0 || x > 7 || y < 0 || y > 7);
@@ -19,7 +18,7 @@ namespace source
             bool returns = false;
             if (board.IsOccupiedAt(x_org, y_org))
             {
-                switch (board.PieceAt(x_org, y_org).GetType().ToString())
+                switch (board.GetPieceAt(x_org, y_org).GetType().ToString())
                 {
                     case "source.Pawn":
                         {
