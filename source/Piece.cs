@@ -16,7 +16,7 @@ namespace source
 
         }
 
-        public abstract int[,] CanMoveTo();
+        public abstract int[,] MovementPattern();
         public bool IsWhite()
         {
             return isWhite;
@@ -30,7 +30,7 @@ namespace source
         {
 
         }
-        public override int[,] CanMoveTo()
+        public override int[,] MovementPattern()
         {
             if(isWhite)
             {
@@ -49,7 +49,7 @@ namespace source
         {
 
         }
-        public override int[,] CanMoveTo()
+        public override int[,] MovementPattern()
         {
             int[,] returns = new int[14, 2];
             int j = 0;
@@ -81,7 +81,7 @@ namespace source
         {
 
         }
-        public override int[,] CanMoveTo()
+        public override int[,] MovementPattern()
         {
            return new int[8, 2] { { x - 1, y + 2 }, { x + 1, y + 2 }, { x - 1, y - 2 }, { x + 1, y - 2 }, { x - 2, y + 1 }, { x - 2, y - 1 }, { x + 2, y + 1 }, { x + 2, y - 1 } };
         }
@@ -93,7 +93,7 @@ namespace source
         {
 
         }
-        public override int[,] CanMoveTo()
+        public override int[,] MovementPattern()
         {
             Logic logic = new Logic();
 
@@ -224,7 +224,7 @@ namespace source
             return returns;
         }
 
-        public override int[,] CanMoveTo()
+        public override int[,] MovementPattern()
         {
 
             int[,] arr1 = RookCanMoveTo();
@@ -243,7 +243,7 @@ namespace source
         {
 
         }
-        public override int[,] CanMoveTo()
+        public override int[,] MovementPattern()
         {
             return new int[8, 2] { { x - 1, y }, { x + 1, y }, { x, y + 1 }, { x, y - 1 }, { x - 1, y + 1 }, { x + 1, y + 1 }, { x + 1, y - 1 }, { x - 1, y - 1 } };
         }

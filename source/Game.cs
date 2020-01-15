@@ -4,10 +4,9 @@ namespace source
     {
         private Player white;
         private Player black;
-        private Board board;
+        private Board board = new Board();
         private bool playing = true;
         private bool whiteTurn = true;
-
         public Game(Player white_in, Player black_in, Board board_in)
         {
             white = white_in;
@@ -39,6 +38,7 @@ namespace source
 
         private bool MakePlay(string input)
         {
+            Logic logic = new Logic();
             if (!(input[0] >= 'a' && input[0] <= 'h' &&
                 input[1] >= '1' && input[1] <= '8' &&
                 input[2] >= 'a' && input[2] <= 'h'&&
@@ -54,7 +54,7 @@ namespace source
                 int y_des = 56 - input[3];
                 bool a = board.IsOccupiedAt(x_org, y_org);
                 bool b = OwnPiece(x_org, y_org);
-                bool c = board.CanMoveTo(x_org, y_org, x_des, y_des);
+                bool c = logic.CanMoveTo(board, x_org, y_org, x_des, y_des);
                 if (a && b && c) //TODO: can't kill enemy piece
                 {
                     board.MovePiece(x_org, y_org, x_des, y_des);
@@ -75,7 +75,7 @@ namespace source
                     returns = "Quitting...";
                     break;
                 case "r": ResetGame();
-                    returns = "Resetting board...";
+                    returns = "Board reset.";
                     break;
                 default: 
                     {

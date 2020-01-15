@@ -8,12 +8,16 @@ namespace source
         {
             Game game = new Game(new Player(), new Player(), new Board());
             View view = new View(game);
-            string message = "";
+            string message;
+
+            Console.WriteLine(view.Show());
 
             while (game.Playing())
             {
+                message = game.Action(Console.ReadLine());
+                Console.Clear();
                 Console.WriteLine(view.Show());
-                Console.WriteLine(game.Action(Console.ReadLine()));
+                Console.WriteLine(message);
             }
         }
     }
