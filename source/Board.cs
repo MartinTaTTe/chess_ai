@@ -34,6 +34,10 @@ namespace source
         {
             return currentPosition[y, x] != null;
         }
+        public bool IsOccupiedAt(int[] coords)
+        {
+            return IsOccupiedAt(coords[0], coords[1]);
+        }
 
         public Piece GetPieceAt(int x, int y) // use IsOccupiedAt first to check if piece exists
         {
@@ -51,21 +55,36 @@ namespace source
             
             return currentPosition[y, x];
         }
+        public Piece GetPieceAt(int[] coords)
+        {
+            return GetPieceAt(coords[0], coords[1]);
+        }
 
         public void MovePiece(int x_org, int y_org, int x_des, int y_des)
         {
             currentPosition[y_des, x_des] = currentPosition[y_org, x_org];
             currentPosition[y_org, x_org] = null;
         }
+        public void MovePiece(int[] c_org, int[] c_des)
+        {
+            MovePiece(c_org[0], c_org[1], c_des[0], c_des[1]);
+        }
 
         public void RemovePiece(int x, int y)
         {
             currentPosition[y, x] = null;
         }
+        public void RemovePiece(int[] coords)
+        {
+            RemovePiece(coords[0], coords[1]);
+        }
 
         public void AddPiece(Piece piece, int x, int y)
         {
             currentPosition[y, x] = piece;
+        }public void AddPiece(Piece piece, int[] coords)
+        {
+            AddPiece(piece, coords[0], coords[1]);
         }
 
     }
