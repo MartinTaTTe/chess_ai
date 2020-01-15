@@ -2,58 +2,57 @@ using System.Collections.Generic;
 
 namespace source
 {
-    class Logic // Game logic for what moves can be made
+    static class Logic // Game logic for what moves can be made
     {
-        public Logic()
-        {
-            
-        }
-        public bool IsTile(int x, int y)
+        public static bool IsTile(int x, int y)
         {
             return !(x < 0 || x > 7 || y < 0 || y > 7);
         }
-
-        public bool CanMoveTo(Board board, int x_org, int y_org, int x_des, int y_des) //TODO: implement this function properly
+        public static bool IsCheck(Board board, bool whitePlayer)
         {
-            bool returns = false;
-            if (board.IsOccupiedAt(x_org, y_org))
+            return false;
+        }
+        public static int[][] PossibleMoves(Board board, Piece piece, bool whitePlayer) // Returns an array of coorrdinates. {-1}: no piece, {-2}:something went wrong in this
+        {
+            int paths = piece.MovementPattern().Length;
+            List<int[]> list = new List<int[]>();
+            int[] targetTile;
+            bool pawn = piece.GetType().ToString() == "source.Pawn";
+            
+            if (pawn)
             {
-                switch (board.GetPieceAt(x_org, y_org).GetType().ToString())
+                for (int p = 0; p < paths; p++)
                 {
-                    case "source.Pawn":
+                    if (p == 0)
+                    {
+                        for (int r = 0; r < piece.MovementPattern()[p].Length; r++)
                         {
-                            returns = true;
-                            break;
+                            targetTile = piece.MovementPattern()[p][0];
+                            if (board.IsOccupiedAt(targetTile) && (board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
+                                list.Add(targetTile);
                         }
-                    case "source.Rook":
-                        {
-                            returns = true;
-                            break;
-                        }
-                    case "source.Knight":
-                        {
-                            returns = true;
-                            break;
-                        }
-                    case "source.Bishop":
-                        {
-                            returns = true;
-                            break;
-                        }
-                    case "source.Queen":
-                        {
-                            returns = true;
-                            break;
-                        }
-                    case "source.King":
-                        {
-                            returns = true;
-                            break;
-                        }
-                    default: break;
+                    }
+                    else
+                    {
+                        targetTile = piece.MovementPattern()[p][0];
+                        if (board.IsOccupiedAt(targetTile) && !(board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
+                            list.Add(targetTile);
+                    }
                 }
             }
-            return returns;
+            else
+            {
+                for (int p = 0; p < paths; p++)
+                {
+                    for (int r = 0; r < piece.MovementPattern()[p].Length; r++)
+                    {
+                        targetTile = piece.MovementPattern()[p][r];
+                        if (board.IsOccupiedAt(targetTile) && (board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
+                            list.Add(targetTile);
+                    }
+                }
+            }
+            return list.ToArray();
         }
     }
 }
