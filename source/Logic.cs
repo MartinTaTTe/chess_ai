@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace source
 {
-    class Logic
+    class Logic // Game logic for what moves can be made
     {
         public Logic()
         {

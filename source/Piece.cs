@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace source
 {
-    abstract class Piece
+    abstract class Piece // Every game piece is a Piece, each child knows it's own possible movement considering an empty board
     {
         protected int x, y;
         protected bool isWhite;
