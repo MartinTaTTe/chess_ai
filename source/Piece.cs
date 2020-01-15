@@ -7,6 +7,7 @@ namespace source
     {
         protected int x, y;
         protected bool isWhite;
+        protected Logic logic = new Logic();
 
         public Piece(bool white, int x_in, int y_in)
         {
@@ -15,8 +16,34 @@ namespace source
             y = y_in;
 
         }
+        protected int[] NextTileInDirection(int x_pre, int y_pre, int x_dif, int y_dif)
+        {
+            int x_nex = x_pre + x_dif;
+            int y_nex = y_pre + y_dif;
 
-        public abstract int[,] MovementPattern();
+            if (!logic.IsTile(x_nex, y_nex))
+                return new int[] { -1 };
+            else
+                return new int[] { x_nex, y_nex };
+        }
+        protected int[][] CreatePath(int x_org, int y_org, int x_dif, int y_dif)
+        {
+            List<int[]> list = new List<int[]>();
+
+            int[] next = NextTileInDirection(x_org, y_org, x_dif, y_dif);
+            if (next[0] == -1)
+                return new int[][] { new int[] { -1 } };
+            else
+            {
+                while (next[0] != -1)
+                {
+                    list.Add(next);
+                    next = NextTileInDirection(next[0], next[1], x_dif, y_dif);
+                }
+                return list.ToArray();
+            }
+        }
+        public abstract int[][][] MovementPattern(); // 3D jagged array where the dimensions are [directions][tiles in direction][coordinates]
         public bool IsWhite()
         {
             return isWhite;
@@ -30,16 +57,41 @@ namespace source
         {
 
         }
-        public override int[,] MovementPattern()
+        public override int[][][] MovementPattern()
         {
             if(isWhite)
             {
-                return new int[3, 2] { { x - 1, y + 1 }, { x, y + 1 }, { x + 1, y + 1 } };
+                if (y == 6)
+                    return new int[][][] 
+                    { 
+                        new int[][] { new int[] { x - 1, y - 1 } },
+                        new int[][] { new int[] { x + 1, y - 1 } },
+                        new int[][] { new int[] { x, y - 1 }, new int[] { x, y - 2 } }
+                    };
+                else
+                    return new int[][][]
+                    {
+                        new int[][] { new int[] { x - 1, y - 1 } },
+                        new int[][] { new int[] { x + 1, y - 1 } },
+                        new int[][] { new int[] { x, y - 1 } }
+                    };
             } else
             {
-                return new int[3, 2] { { x - 1, y - 1 }, { x, y - 1 }, { x + 1, y - 1 } };
+                if (y == 1)
+                    return new int[][][]
+                    {
+                        new int[][] { new int[] { x - 1, y + 1 } },
+                        new int[][] { new int[] { x + 1, y + 1 } },
+                        new int[][] { new int[] { x, y + 1 }, new int[] { x, y + 2 } }
+                    };
+                else
+                    return new int[][][]
+                    {
+                        new int[][] { new int[] { x - 1, y + 1 } },
+                        new int[][] { new int[] { x + 1, y + 1 } },
+                        new int[][] { new int[] { x, y + 1 } }
+                    };
             }
-
         }
     }
 
@@ -49,29 +101,19 @@ namespace source
         {
 
         }
-        public override int[,] MovementPattern()
+        
+        public override int[][][] MovementPattern()
         {
-            int[,] returns = new int[14, 2];
-            int j = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != x)
-                {
-                    returns[j, 0] = i;
-                    returns[j, 1] = y;
-                }
-                j++;
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != y)
-                {
-                    returns[j, 0] = x;
-                    returns[j, 1] = i;
-                }
-                j++;
-            }
-            return returns;
+            List<int[][]> list = new List<int[][]>();
+            if (logic.IsTile(x - 1, y))
+                list.Add(CreatePath(x, y, -1, 0));
+            if (logic.IsTile(x + 1, y))
+                list.Add(CreatePath(x, y, +1, 0));
+            if (logic.IsTile(x, y - 1))
+                list.Add(CreatePath(x, y, 0, -1));
+            if (logic.IsTile(x, y + 1))
+                list.Add(CreatePath(x, y, 0, +1));
+            return list.ToArray();
         }
     }
 
@@ -81,9 +123,19 @@ namespace source
         {
 
         }
-        public override int[,] MovementPattern()
+        public override int[][][] MovementPattern()
         {
-           return new int[8, 2] { { x - 1, y + 2 }, { x + 1, y + 2 }, { x - 1, y - 2 }, { x + 1, y - 2 }, { x - 2, y + 1 }, { x - 2, y - 1 }, { x + 2, y + 1 }, { x + 2, y - 1 } };
+            return new int[][][]
+                     {
+                        new int[][] { new int[] { x + 2, y - 1 } },
+                        new int[][] { new int[] { x + 2, y + 1 } },
+                        new int[][] { new int[] { x - 2, y - 1 } },
+                        new int[][] { new int[] { x - 2, y + 1 } },
+                        new int[][] { new int[] { x + 1, y - 2 } },
+                        new int[][] { new int[] { x - 1, y - 2 } },
+                        new int[][] { new int[] { x + 1, y + 2 } },
+                        new int[][] { new int[] { x - 1, y + 2 } }
+                     };
         }
     }
 
@@ -93,54 +145,18 @@ namespace source
         {
 
         }
-        public override int[,] MovementPattern()
+        public override int[][][] MovementPattern()
         {
-            Logic logic = new Logic();
-
-            List<int[]> list = new List<int[]>();
-
-            int i = 1, j = 1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i++; j++;
-            }
-
-            i = -1; j = 1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i--; j++;
-            }
-
-            i = -1; j = -1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i--; j--;
-            }
-
-            i = 1; j = -1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i++; j--;
-            }
-
-            int l = list.Count;
-            int[,] returns = new int[l, 2];
-
-            for (int ii = 0; ii < l; ii++)
-            {
-                returns[ii, 0] = list[ii][0];
-                returns[ii, 1] = list[ii][1];
-            }
-
-            return returns;
+            List<int[][]> list = new List<int[][]>();
+            if (logic.IsTile(x - 1, y - 1))
+                list.Add(CreatePath(x, y, -1, -1));
+            if (logic.IsTile(x - 1, y + 1))
+                list.Add(CreatePath(x, y, -1, +1));
+            if (logic.IsTile(x + 1, y - 1))
+                list.Add(CreatePath(x, y, +1, -1));
+            if (logic.IsTile(x + 1, y + 1))
+                list.Add(CreatePath(x, y, +1, +1));
+            return list.ToArray();
         }
     }
 
@@ -150,90 +166,26 @@ namespace source
         {
 
         }
-        int[,] RookCanMoveTo()
+        public override int[][][] MovementPattern()
         {
-            int[,] returns = new int[14, 2];
-            int j = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != x)
-                {
-                    returns[j, 0] = i;
-                    returns[j, 1] = y;
-                }
-                j++;
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != y)
-                {
-                    returns[j, 0] = x;
-                    returns[j, 1] = i;
-                }
-                j++;
-            }
-            return returns;
-        }
-        int[,] BishopCanMoveTo()
-        {
-            Logic logic = new Logic();
-
-            List<int[]> list = new List<int[]>();
-
-            int i = 1, j = 1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i++; j++;
-            }
-
-            i = -1; j = 1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i--; j++;
-            }
-
-            i = -1; j = -1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i--; j--;
-            }
-
-            i = 1; j = -1;
-
-            while (logic.IsTile(x + i, y + j))
-            {
-                list.Add(new int[] { x + i, y + j });
-                i++; j--;
-            }
-
-            int l = list.Count;
-            int[,] returns = new int[l, 2];
-
-            for (int ii = 0; ii < l; ii++)
-            {
-                returns[ii, 0] = list[ii][0];
-                returns[ii, 1] = list[ii][1];
-            }
-
-            return returns;
-        }
-
-        public override int[,] MovementPattern()
-        {
-
-            int[,] arr1 = RookCanMoveTo();
-            int[,] arr2 = BishopCanMoveTo();
-            int[,] returns = new int[arr1.Length + arr2.Length, 2];
-            Array.Copy(arr1, returns, arr1.Length);
-            Array.Copy(arr2, 0, returns, arr1.Length, arr2.Length);
-
-            return returns;
+            List<int[][]> list = new List<int[][]>();
+            if (logic.IsTile(x - 1, y))
+                list.Add(CreatePath(x, y, -1, 0));
+            if (logic.IsTile(x + 1, y))
+                list.Add(CreatePath(x, y, +1, 0));
+            if (logic.IsTile(x, y - 1))
+                list.Add(CreatePath(x, y, 0, -1));
+            if (logic.IsTile(x, y + 1))
+                list.Add(CreatePath(x, y, 0, +1));
+            if (logic.IsTile(x - 1, y - 1))
+                list.Add(CreatePath(x, y, -1, -1));
+            if (logic.IsTile(x - 1, y + 1))
+                list.Add(CreatePath(x, y, -1, +1));
+            if (logic.IsTile(x + 1, y - 1))
+                list.Add(CreatePath(x, y, +1, -1));
+            if (logic.IsTile(x + 1, y + 1))
+                list.Add(CreatePath(x, y, +1, +1));
+            return list.ToArray();
         }
     }
 
@@ -243,9 +195,19 @@ namespace source
         {
 
         }
-        public override int[,] MovementPattern()
+        public override int[][][] MovementPattern()
         {
-            return new int[8, 2] { { x - 1, y }, { x + 1, y }, { x, y + 1 }, { x, y - 1 }, { x - 1, y + 1 }, { x + 1, y + 1 }, { x + 1, y - 1 }, { x - 1, y - 1 } };
+            return new int[][][]
+                     {
+                        new int[][] { new int[] { x, y - 1 } },
+                        new int[][] { new int[] { x, y + 1 } },
+                        new int[][] { new int[] { x + 1, y - 1 } },
+                        new int[][] { new int[] { x + 1, y + 1 } },
+                        new int[][] { new int[] { x + 1, y } },
+                        new int[][] { new int[] { x - 1, y } },
+                        new int[][] { new int[] { x - 1, y + 2 } },
+                        new int[][] { new int[] { x - 1, y - 2 } }
+                     };
         }
     }
 }
