@@ -7,7 +7,6 @@ namespace source
     {
         protected int x, y;
         protected bool isWhite;
-        protected Logic logic = new Logic();
 
         public Piece(bool white, int x_in, int y_in)
         {
@@ -16,12 +15,24 @@ namespace source
             y = y_in;
 
         }
+        public int GetX()
+        {
+            return x;
+        }
+        public int GetY()
+        {
+            return y;
+        }
+        public int[] GetC()
+        {
+            return new int[] { x, y };
+        }
         protected int[] NextTileInDirection(int x_pre, int y_pre, int x_dif, int y_dif)
         {
             int x_nex = x_pre + x_dif;
             int y_nex = y_pre + y_dif;
 
-            if (!logic.IsTile(x_nex, y_nex))
+            if (!Logic.IsTile(x_nex, y_nex))
                 return new int[] { -1 };
             else
                 return new int[] { x_nex, y_nex };
@@ -63,10 +74,10 @@ namespace source
             {
                 if (y == 6)
                     return new int[][][] 
-                    { 
+                    {
+                        new int[][] { new int[] { x, y - 1 }, new int[] { x, y - 2 } },
                         new int[][] { new int[] { x - 1, y - 1 } },
-                        new int[][] { new int[] { x + 1, y - 1 } },
-                        new int[][] { new int[] { x, y - 1 }, new int[] { x, y - 2 } }
+                        new int[][] { new int[] { x + 1, y - 1 } }
                     };
                 else
                     return new int[][][]
@@ -105,19 +116,19 @@ namespace source
         public override int[][][] MovementPattern()
         {
             List<int[][]> list = new List<int[][]>();
-            if (logic.IsTile(x - 1, y))
+            if (Logic.IsTile(x - 1, y))
                 list.Add(CreatePath(x, y, -1, 0));
-            if (logic.IsTile(x + 1, y))
+            if (Logic.IsTile(x + 1, y))
                 list.Add(CreatePath(x, y, +1, 0));
-            if (logic.IsTile(x, y - 1))
+            if (Logic.IsTile(x, y - 1))
                 list.Add(CreatePath(x, y, 0, -1));
-            if (logic.IsTile(x, y + 1))
+            if (Logic.IsTile(x, y + 1))
                 list.Add(CreatePath(x, y, 0, +1));
             return list.ToArray();
         }
     }
 
-    class Knight : Piece
+    class Knight : Piece // use Logic to only include tiles on board
     {
         public Knight(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
@@ -148,13 +159,13 @@ namespace source
         public override int[][][] MovementPattern()
         {
             List<int[][]> list = new List<int[][]>();
-            if (logic.IsTile(x - 1, y - 1))
+            if (Logic.IsTile(x - 1, y - 1))
                 list.Add(CreatePath(x, y, -1, -1));
-            if (logic.IsTile(x - 1, y + 1))
+            if (Logic.IsTile(x - 1, y + 1))
                 list.Add(CreatePath(x, y, -1, +1));
-            if (logic.IsTile(x + 1, y - 1))
+            if (Logic.IsTile(x + 1, y - 1))
                 list.Add(CreatePath(x, y, +1, -1));
-            if (logic.IsTile(x + 1, y + 1))
+            if (Logic.IsTile(x + 1, y + 1))
                 list.Add(CreatePath(x, y, +1, +1));
             return list.ToArray();
         }
@@ -169,27 +180,27 @@ namespace source
         public override int[][][] MovementPattern()
         {
             List<int[][]> list = new List<int[][]>();
-            if (logic.IsTile(x - 1, y))
+            if (Logic.IsTile(x - 1, y))
                 list.Add(CreatePath(x, y, -1, 0));
-            if (logic.IsTile(x + 1, y))
+            if (Logic.IsTile(x + 1, y))
                 list.Add(CreatePath(x, y, +1, 0));
-            if (logic.IsTile(x, y - 1))
+            if (Logic.IsTile(x, y - 1))
                 list.Add(CreatePath(x, y, 0, -1));
-            if (logic.IsTile(x, y + 1))
+            if (Logic.IsTile(x, y + 1))
                 list.Add(CreatePath(x, y, 0, +1));
-            if (logic.IsTile(x - 1, y - 1))
+            if (Logic.IsTile(x - 1, y - 1))
                 list.Add(CreatePath(x, y, -1, -1));
-            if (logic.IsTile(x - 1, y + 1))
+            if (Logic.IsTile(x - 1, y + 1))
                 list.Add(CreatePath(x, y, -1, +1));
-            if (logic.IsTile(x + 1, y - 1))
+            if (Logic.IsTile(x + 1, y - 1))
                 list.Add(CreatePath(x, y, +1, -1));
-            if (logic.IsTile(x + 1, y + 1))
+            if (Logic.IsTile(x + 1, y + 1))
                 list.Add(CreatePath(x, y, +1, +1));
             return list.ToArray();
         }
     }
 
-    class King : Piece
+    class King : Piece // use Logic to only include tiles on board
     {
         public King(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {

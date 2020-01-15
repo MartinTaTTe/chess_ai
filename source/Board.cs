@@ -4,6 +4,12 @@ namespace source
 {
     class Board // Game board with pieces and functions to (re)move and add pieces.
     {
+        public Board(Board board)
+        {
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                    currentPosition[i, j] = board.currentPosition[i, j];
+        }
         public Board()
         {
             ResetBoard();
@@ -70,6 +76,17 @@ namespace source
             MovePiece(c_org[0], c_org[1], c_des[0], c_des[1]);
         }
 
+        public Board AfterMove(int x_org, int y_org, int x_des, int y_des)
+        {
+            Board board = new Board(this);
+            board.MovePiece(x_org, y_org, x_des, y_des);
+            return board;
+        }
+        public Board AfterMove(int[] c_org, int[] c_des)
+        {
+            return AfterMove(c_org[0], c_org[1], c_des[0], c_des[1]);
+        }
+
         public void RemovePiece(int x, int y)
         {
             currentPosition[y, x] = null;
@@ -86,6 +103,5 @@ namespace source
         {
             AddPiece(piece, coords[0], coords[1]);
         }
-
     }
 }
