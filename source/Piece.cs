@@ -129,7 +129,7 @@ namespace source
         }
     }
 
-    class Knight : Piece // TODO: use Logic to only include tiles on board
+    class Knight : Piece
     {
         public Knight(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
@@ -208,7 +208,7 @@ namespace source
         }
     }
 
-    class King : Piece // TODO: use Logic to only include tiles on board
+    class King : Piece
     {
         public King(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {

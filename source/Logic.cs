@@ -27,7 +27,7 @@ namespace source
                     {
                         for (int r = 0; r < piece.MovementPattern()[p].Length; r++)
                         {
-                            targetTile = piece.MovementPattern()[p][0];
+                            targetTile = piece.MovementPattern()[p][r];
                             if (!board.IsOccupiedAt(targetTile) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
                                 list.Add(targetTile);
                         }
@@ -35,7 +35,7 @@ namespace source
                     else
                     {
                         targetTile = piece.MovementPattern()[p][0];
-                        if (board.IsOccupiedAt(targetTile) && !(board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
+                        if (board.IsOccupiedAt(targetTile) && (board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
                             list.Add(targetTile);
                     }
                 }
