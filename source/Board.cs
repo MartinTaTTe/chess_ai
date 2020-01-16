@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace source
 {
@@ -15,7 +16,7 @@ namespace source
             ResetBoard();
         }
 
-        private readonly Piece[,] startPosition = new Piece[8, 8]
+        private static readonly Piece[,] startPosition = new Piece[8, 8]
         {
             { new Rook(false, 0, 0), new Knight(false, 1, 0), new Bishop(false, 2, 0), new Queen(false, 3, 0), new King(false, 4, 0), new Bishop(false, 5 ,0), new Knight(false, 6, 0), new Rook(false, 7, 0) },
             { new Pawn(false, 0, 1), new Pawn(false, 1, 1), new Pawn(false, 2, 1), new Pawn(false, 3, 1), new Pawn(false, 4, 1), new Pawn(false, 5, 1), new Pawn(false, 6, 1), new Pawn(false, 7, 1) },
@@ -36,8 +37,47 @@ namespace source
                     currentPosition[i, j] = startPosition[i, j];
         }
 
+        public Piece[] WhitePieces()
+        {
+            List<Piece> list = new List<Piece>();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (IsOccupiedAt(i, j) && GetPieceAt(i, j).IsWhite())
+                        list.Add(GetPieceAt(i, j));
+                }
+            }
+            return list.ToArray();
+        }
+
+        public Piece[] BlackPieces()
+        {
+            List<Piece> list = new List<Piece>();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (IsOccupiedAt(i, j) && !GetPieceAt(i, j).IsWhite())
+                        list.Add(GetPieceAt(i, j));
+                }
+            }
+            return list.ToArray();
+        }
+
         public bool IsOccupiedAt(int x, int y)
         {
+            try
+            {
+                if (x < 0 || y < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught. Board.IsOccupiedAt received negative values.", e);
+            }
             return currentPosition[y, x] != null;
         }
         public bool IsOccupiedAt(int[] coords)

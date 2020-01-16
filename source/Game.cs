@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+
 namespace source
 {
     class Game
@@ -38,7 +41,6 @@ namespace source
 
         private bool MakePlay(string input)
         {
-            Logic logic = new Logic();
             if (!(input[0] >= 'a' && input[0] <= 'h' &&
                 input[1] >= '1' && input[1] <= '8' &&
                 input[2] >= 'a' && input[2] <= 'h'&&
@@ -52,14 +54,16 @@ namespace source
                 int y_org = 56 - input[1];
                 int x_des = input[2] - 97;
                 int y_des = 56 - input[3];
-                bool a = board.IsOccupiedAt(x_org, y_org);
-                bool b = OwnPiece(x_org, y_org);
-                bool c = logic.CanMoveTo(board, x_org, y_org, x_des, y_des);
-                if (a && b && c) //TODO: can't kill enemy piece
+                if (OwnPiece(x_org, y_org))
                 {
-                    board.MovePiece(x_org, y_org, x_des, y_des);
-                    whiteTurn = !whiteTurn;
-                    return true;
+                    if (Array.Exists(Logic.PossibleMoves(board, board.GetPieceAt(x_org, y_org), whiteTurn), c => c[0] == x_des && c[1] == y_des))
+                    {
+                        board.MovePiece(x_org, y_org, x_des, y_des);
+                        board.GetPieceAt(x_des, y_des).HasMoved();
+                        board.GetPieceAt(x_des, y_des).SetCoords(x_des, y_des);
+                        whiteTurn = !whiteTurn;
+                        return true;
+                    }
                 }
                 return false;
             }

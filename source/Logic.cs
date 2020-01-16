@@ -8,7 +8,7 @@ namespace source
         {
             return !(x < 0 || x > 7 || y < 0 || y > 7);
         }
-        public static bool IsCheck(Board board, bool whitePlayer)
+        public static bool IsCheck(Board board, bool whitePlayer) // TODO: implement
         {
             return false;
         }
@@ -28,7 +28,7 @@ namespace source
                         for (int r = 0; r < piece.MovementPattern()[p].Length; r++)
                         {
                             targetTile = piece.MovementPattern()[p][0];
-                            if (board.IsOccupiedAt(targetTile) && (board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
+                            if (!board.IsOccupiedAt(targetTile) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
                                 list.Add(targetTile);
                         }
                     }
@@ -47,8 +47,17 @@ namespace source
                     for (int r = 0; r < piece.MovementPattern()[p].Length; r++)
                     {
                         targetTile = piece.MovementPattern()[p][r];
-                        if (board.IsOccupiedAt(targetTile) && (board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
-                            list.Add(targetTile);
+                        if (board.IsOccupiedAt(targetTile))
+                        {
+                            if ((board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) && !IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
+                                list.Add(targetTile);
+                            break;
+                        } 
+                        else
+                        {
+                            if (!IsCheck(board.AfterMove(piece.GetC(), targetTile), whitePlayer))
+                                list.Add(targetTile);
+                        }
                     }
                 }
             }

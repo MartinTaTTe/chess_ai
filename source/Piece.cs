@@ -9,11 +9,11 @@ namespace source
         protected bool isWhite;
         protected bool hasMoved;
 
-        public Piece(bool white, int x_in, int y_in)
+        public Piece(bool isWhite, int x, int y)
         {
-            isWhite = white;
-            x = x_in;
-            y = y_in;
+            this.isWhite = isWhite;
+            this.x = x;
+            this.y = y;
             hasMoved = false;
 
         }
@@ -24,6 +24,11 @@ namespace source
         public int GetY()
         {
             return y;
+        }
+        public void SetCoords(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
         }
         public int[] GetC()
         {
