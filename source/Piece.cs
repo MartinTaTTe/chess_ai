@@ -7,12 +7,14 @@ namespace source
     {
         protected int x, y;
         protected bool isWhite;
+        protected bool hasMoved;
 
         public Piece(bool white, int x_in, int y_in)
         {
             isWhite = white;
             x = x_in;
             y = y_in;
+            hasMoved = false;
 
         }
         public int GetX()
@@ -26,6 +28,10 @@ namespace source
         public int[] GetC()
         {
             return new int[] { x, y };
+        }
+        public void HasMoved()
+        {
+            hasMoved = true;
         }
         protected int[] NextTileInDirection(int x_pre, int y_pre, int x_dif, int y_dif)
         {
@@ -70,39 +76,29 @@ namespace source
         }
         public override int[][][] MovementPattern()
         {
+            List<int[][]> list = new List<int[][]>();
             if(isWhite)
             {
-                if (y == 6)
-                    return new int[][][] 
-                    {
-                        new int[][] { new int[] { x, y - 1 }, new int[] { x, y - 2 } },
-                        new int[][] { new int[] { x - 1, y - 1 } },
-                        new int[][] { new int[] { x + 1, y - 1 } }
-                    };
+                if (!hasMoved)
+                    list.Add(new int[][] { new int[] { x, y - 1 }, new int[] { x, y - 2 } });
                 else
-                    return new int[][][]
-                    {
-                        new int[][] { new int[] { x - 1, y - 1 } },
-                        new int[][] { new int[] { x + 1, y - 1 } },
-                        new int[][] { new int[] { x, y - 1 } }
-                    };
+                    list.Add(new int[][] { new int[] { x, y - 1 } });
+                if (Logic.IsTile(x - 1, y - 1))
+                    list.Add(new int[][] { new int[] { x - 1, y - 1 } });
+                if (Logic.IsTile(x + 1, y - 1))
+                    list.Add(new int[][] { new int[] { x + 1, y - 1 } });
             } else
             {
-                if (y == 1)
-                    return new int[][][]
-                    {
-                        new int[][] { new int[] { x - 1, y + 1 } },
-                        new int[][] { new int[] { x + 1, y + 1 } },
-                        new int[][] { new int[] { x, y + 1 }, new int[] { x, y + 2 } }
-                    };
+                if (!hasMoved)
+                    list.Add(new int[][] { new int[] { x, y + 1 }, new int[] { x, y + 2 } });
                 else
-                    return new int[][][]
-                    {
-                        new int[][] { new int[] { x - 1, y + 1 } },
-                        new int[][] { new int[] { x + 1, y + 1 } },
-                        new int[][] { new int[] { x, y + 1 } }
-                    };
+                    list.Add(new int[][] { new int[] { x, y + 1 } });
+                if (Logic.IsTile(x - 1, y - 1))
+                    list.Add(new int[][] { new int[] { x - 1, y + 1 } });
+                if (Logic.IsTile(x + 1, y - 1))
+                    list.Add(new int[][] { new int[] { x + 1, y + 1 } });
             }
+            return list.ToArray();
         }
     }
 
@@ -128,7 +124,7 @@ namespace source
         }
     }
 
-    class Knight : Piece // use Logic to only include tiles on board
+    class Knight : Piece // TODO: use Logic to only include tiles on board
     {
         public Knight(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
@@ -136,17 +132,24 @@ namespace source
         }
         public override int[][][] MovementPattern()
         {
-            return new int[][][]
-                     {
-                        new int[][] { new int[] { x + 2, y - 1 } },
-                        new int[][] { new int[] { x + 2, y + 1 } },
-                        new int[][] { new int[] { x - 2, y - 1 } },
-                        new int[][] { new int[] { x - 2, y + 1 } },
-                        new int[][] { new int[] { x + 1, y - 2 } },
-                        new int[][] { new int[] { x - 1, y - 2 } },
-                        new int[][] { new int[] { x + 1, y + 2 } },
-                        new int[][] { new int[] { x - 1, y + 2 } }
-                     };
+            List<int[][]> list = new List<int[][]>();
+            if (Logic.IsTile(x + 2, y - 1))
+                list.Add(new int[][] { new int[] { x + 2, y - 1 } });
+            if (Logic.IsTile(x + 2, y + 1))
+                list.Add(new int[][] { new int[] { x + 2, y + 1 } });
+            if (Logic.IsTile(x - 2, y - 1))
+                list.Add(new int[][] { new int[] { x - 2, y - 1 } });
+            if (Logic.IsTile(x - 2, y + 1))
+                list.Add(new int[][] { new int[] { x - 2, y + 1 } });
+            if (Logic.IsTile(x + 1, y - 2))
+                list.Add(new int[][] { new int[] { x + 1, y - 2 } });
+            if (Logic.IsTile(x - 1, y - 2))
+                list.Add(new int[][] { new int[] { x - 1, y - 2 } });
+            if (Logic.IsTile(x + 1, y + 2))
+                list.Add(new int[][] { new int[] { x + 1, y + 2 } });
+            if (Logic.IsTile(x - 1, y + 2))
+                list.Add(new int[][] { new int[] { x - 1, y + 2 } });
+            return list.ToArray();
         }
     }
 
@@ -200,7 +203,7 @@ namespace source
         }
     }
 
-    class King : Piece // use Logic to only include tiles on board
+    class King : Piece // TODO: use Logic to only include tiles on board
     {
         public King(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
@@ -208,17 +211,24 @@ namespace source
         }
         public override int[][][] MovementPattern()
         {
-            return new int[][][]
-                     {
-                        new int[][] { new int[] { x, y - 1 } },
-                        new int[][] { new int[] { x, y + 1 } },
-                        new int[][] { new int[] { x + 1, y - 1 } },
-                        new int[][] { new int[] { x + 1, y + 1 } },
-                        new int[][] { new int[] { x + 1, y } },
-                        new int[][] { new int[] { x - 1, y } },
-                        new int[][] { new int[] { x - 1, y + 2 } },
-                        new int[][] { new int[] { x - 1, y - 2 } }
-                     };
+            List<int[][]> list = new List<int[][]>();
+            if (Logic.IsTile(x, y - 1))
+                list.Add(new int[][] { new int[] { x, y - 1 } });
+            if (Logic.IsTile(x, y + 1))
+                list.Add(new int[][] { new int[] { x, y + 1 } });
+            if (Logic.IsTile(x + 1, y))
+                list.Add(new int[][] { new int[] { x + 1, y } });
+            if (Logic.IsTile(x - 1, y))
+                list.Add(new int[][] { new int[] { x - 1, y } });
+            if (Logic.IsTile(x - 1, y + 1))
+                list.Add(new int[][] { new int[] { x - 1, y + 1 } });
+            if (Logic.IsTile(x + 1, y + 1))
+                list.Add(new int[][] { new int[] { x + 1, y + 1 } });
+            if (Logic.IsTile(x + 1, y - 1))
+                list.Add(new int[][] { new int[] { x + 1, y - 1 } });
+            if (Logic.IsTile(x - 1, y - 1))
+                list.Add(new int[][] { new int[] { x - 1, y - 1 } });
+            return list.ToArray();
         }
     }
 }
