@@ -23,34 +23,34 @@ namespace source
                         returns += "[ ]";
                     } else
                     {
-                        switch (game.PieceAt(i, j).GetType().ToString())
+                        switch (game.PieceAt(i, j).Type())
                         {
-                            case "source.Pawn":
+                            case "pawn":
                                 {
                                     returns += "[P]";
                                     break;
                                 }
-                            case "source.Rook":
+                            case "rook":
                                 {
                                     returns += "[R]";
                                     break;
                                 }
-                            case "source.Knight":
+                            case "knight":
                                 {
                                     returns += "[K]";
                                     break;
                                 }
-                            case "source.Bishop":
+                            case "bishop":
                                 {
                                     returns += "[B]";
                                     break;
                                 }
-                            case "source.Queen":
+                            case "queen":
                                 {
                                     returns += "[Q]";
                                     break;
                                 }
-                            case "source.King":
+                            case "king":
                                 {
                                     returns += "[X]";
                                     break;

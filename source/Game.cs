@@ -56,7 +56,7 @@ namespace source
                 int y_des = 56 - input[3];
                 if (OwnPiece(x_org, y_org))
                 {
-                    if (Array.Exists(Logic.PossibleMoves(board, board.GetPieceAt(x_org, y_org), whiteTurn), c => c[0] == x_des && c[1] == y_des))
+                    if (Array.Exists(Logic.PossibleMoves(board, board.GetPieceAt(x_org, y_org)), c => c[0] == x_des && c[1] == y_des))
                     {
                         board.MovePiece(x_org, y_org, x_des, y_des);
                         board.GetPieceAt(x_des, y_des).HasMoved();

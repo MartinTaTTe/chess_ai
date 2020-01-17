@@ -37,28 +37,14 @@ namespace source
                     currentPosition[i, j] = startPosition[i, j];
         }
 
-        public Piece[] WhitePieces()
+        public Piece[] PiecesOf(bool whitePlayer)
         {
             List<Piece> list = new List<Piece>();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (IsOccupiedAt(i, j) && GetPieceAt(i, j).IsWhite())
-                        list.Add(GetPieceAt(i, j));
-                }
-            }
-            return list.ToArray();
-        }
-
-        public Piece[] BlackPieces()
-        {
-            List<Piece> list = new List<Piece>();
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (IsOccupiedAt(i, j) && !GetPieceAt(i, j).IsWhite())
+                    if (IsOccupiedAt(i, j) && !(GetPieceAt(i, j).IsWhite() ^ whitePlayer))
                         list.Add(GetPieceAt(i, j));
                 }
             }
@@ -139,7 +125,8 @@ namespace source
         public void AddPiece(Piece piece, int x, int y)
         {
             currentPosition[y, x] = piece;
-        }public void AddPiece(Piece piece, int[] coords)
+        }
+        public void AddPiece(Piece piece, int[] coords)
         {
             AddPiece(piece, coords[0], coords[1]);
         }

@@ -8,6 +8,7 @@ namespace source
         protected int x, y;
         protected bool isWhite;
         protected bool hasMoved;
+        protected string type;
 
         public Piece(bool isWhite, int x, int y)
         {
@@ -70,14 +71,17 @@ namespace source
         {
             return isWhite;
         }
-
+        public string Type()
+        {
+            return type;
+        }
     }
 
     class Pawn : Piece
     {
         public Pawn(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
-
+            type = "pawn";
         }
         public override int[][][] MovementPattern()
         {
@@ -111,7 +115,7 @@ namespace source
     {
         public Rook(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
-
+            type = "rook";
         }
         
         public override int[][][] MovementPattern()
@@ -133,7 +137,7 @@ namespace source
     {
         public Knight(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
-
+            type = "knight";
         }
         public override int[][][] MovementPattern()
         {
@@ -162,7 +166,7 @@ namespace source
     {
         public Bishop(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
-
+            type = "bishop";
         }
         public override int[][][] MovementPattern()
         {
@@ -183,7 +187,7 @@ namespace source
     {
         public Queen(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
-
+            type = "queen";
         }
         public override int[][][] MovementPattern()
         {
@@ -212,7 +216,7 @@ namespace source
     {
         public King(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
-
+            type = "king";
         }
         public override int[][][] MovementPattern()
         {
