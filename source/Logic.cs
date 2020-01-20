@@ -14,7 +14,7 @@ namespace source
         public static bool IsCheck(Board board, bool whitePlayer) // whitePlayer is the player who threats the other's king
         {
             var arr = Threats(board, whitePlayer, true);
-            var arr2 = Array.Find(board.PiecesOf(!whitePlayer), p => p.Type() == "king").GetC();
+            var arr2 = Array.Find(board.PiecesOf(!whitePlayer), p => p.Type("king")).GetC();
             var ret = Array.Exists(arr, c => c[0] == arr2[0] && c[1] == arr2[1]);
             return ret;
         }
@@ -52,7 +52,7 @@ namespace source
             foreach (Piece piece in board.PiecesOf(whitePlayer))
             {
                 paths = piece.MovementPattern().Length;
-                if (piece.Type() == "pawn")
+                if (piece.Type("pawn"))
                 {
                     for (int p = 1; p < paths; p++)
                     {
@@ -88,7 +88,7 @@ namespace source
             List<int[]> list = new List<int[]>();
             int[] targetTile;
             
-            if (piece.Type() == "pawn")
+            if (piece.Type("pawn"))
             {
                 for (int p = 0; p < paths; p++)
                 {
@@ -142,5 +142,6 @@ namespace source
                 return new int[] { -1 };
             else
                 return new int[] { input[0] - 97, 56 - input[1], input[2] - 97, 56 - input[3] };
+        }
     }
 }

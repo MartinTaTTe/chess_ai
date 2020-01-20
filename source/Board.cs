@@ -96,6 +96,8 @@ namespace source
         {
             currentPosition[y_des, x_des] = currentPosition[y_org, x_org];
             currentPosition[y_org, x_org] = null;
+            GetPieceAt(x_des, y_des).Moved();
+            GetPieceAt(x_des, y_des).SetCoords(x_des, y_des);
         }
         public void MovePiece(int[] c_org, int[] c_des)
         {
@@ -129,6 +131,70 @@ namespace source
         public void AddPiece(Piece piece, int[] coords)
         {
             AddPiece(piece, coords[0], coords[1]);
+        }
+
+        public bool Castle(bool whitePlayer, bool left)
+        {
+            if (whitePlayer && IsOccupiedAt(4, 7) && GetPieceAt(4, 7).Type("king") && !GetPieceAt(4, 7).HasMoved())
+            { 
+                if (left)
+                { // check if rook is in position
+                    if (IsOccupiedAt(0, 7)&& GetPieceAt(0, 7).Type("rook")&& !GetPieceAt(0, 7).HasMoved())
+                    { // check the path is clear
+                        if (!(IsOccupiedAt(1, 7) || IsOccupiedAt(2, 7) || IsOccupiedAt(3, 7)) && Array.Exists(Logic.Threats(this, !whitePlayer, true), c => c[0] == 2 && c[1] == 7))
+                        {
+                            MovePiece(0, 7, 3, 7);
+                            MovePiece(4, 7, 2, 7);
+                            return true;
+                        }
+                    }
+                }
+                else
+                { // check if rook is in position
+                    if (IsOccupiedAt(7, 7) && GetPieceAt(7, 7).Type("rook") && !GetPieceAt(7, 7).HasMoved())
+                    { // check the path is clear
+                        if (!(IsOccupiedAt(5, 7) || IsOccupiedAt(6, 7)) && Array.Exists(Logic.Threats(this, !whitePlayer, true), c => c[0] == 6 && c[1] == 7))
+                        {
+                            MovePiece(7, 7, 5, 7);
+                            MovePiece(4, 7, 6, 7);
+                            return true;
+                        }
+                    }
+
+                }
+            }
+            else 
+            {
+                if (IsOccupiedAt(4, 0) && GetPieceAt(4, 0).Type("king") && !GetPieceAt(4, 0).HasMoved())
+                { // check if rook is in position
+                    if (left)
+                    {
+                        if (IsOccupiedAt(0, 0) && GetPieceAt(0, 0).Type("rook") && !GetPieceAt(0, 0).HasMoved())
+                        { // check the path is clear
+                            if (!(IsOccupiedAt(1, 0) || IsOccupiedAt(2, 0) || IsOccupiedAt(3, 0)) && Array.Exists(Logic.Threats(this, !whitePlayer, true), c => c[0] == 2 && c[1] == 0))
+                            {
+                                MovePiece(0, 0, 3, 0);
+                                MovePiece(4, 0, 2, 0);
+                                return true;
+                            }
+                        }
+                    }
+                    else
+                    { // check if rook is in position
+                        if (IsOccupiedAt(7, 0) && GetPieceAt(7, 0).Type("rook") && !GetPieceAt(7, 0).HasMoved())
+                        { // check the path is clear
+                            if (!(IsOccupiedAt(5, 0) || IsOccupiedAt(6, 0)) && Array.Exists(Logic.Threats(this, !whitePlayer, true), c => c[0] == 6 && c[1] == 0))
+                            {
+                                MovePiece(7, 0, 5, 0);
+                                MovePiece(4, 0, 6, 0);
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace source
                         returns += "[ ]";
                     } else
                     {
-                        switch (game.PieceAt(i, j).Type())
+                        switch (game.PieceAt(i, j).TypeStr())
                         {
                             case "pawn":
                                 {

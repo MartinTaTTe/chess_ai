@@ -35,9 +35,13 @@ namespace source
         {
             return new int[] { x, y };
         }
-        public void HasMoved()
+        public void Moved()
         {
             hasMoved = true;
+        }
+        public bool HasMoved()
+        {
+            return hasMoved;
         }
         protected int[] NextTileInDirection(int x_pre, int y_pre, int x_dif, int y_dif)
         {
@@ -71,7 +75,11 @@ namespace source
         {
             return isWhite;
         }
-        public string Type()
+        public bool Type(string type)
+        {
+            return type == this.type;
+        }
+        public string TypeStr()
         {
             return type;
         }

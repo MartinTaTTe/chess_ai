@@ -43,11 +43,9 @@ namespace source
         {
             if (OwnPiece(input[0], input[1]))
                 {
-                if (Array.Exists(Logic.PossibleMoves(board, board.GetPieceAt(x_org, y_org)), c => c[0] == x_des && c[1] == y_des))
+                if (Array.Exists(Logic.PossibleMoves(board, board.GetPieceAt(input[0], input[1])), c => c[0] == input[2] && c[1] == input[3]))
                 {
                     board.MovePiece(input[0], input[1], input[2], input[3]);
-                    board.GetPieceAt(input[2], input[3]).HasMoved();
-                    board.GetPieceAt(input[2], input[3]).SetCoords(input[2], input[3]);
                     whiteTurn = !whiteTurn;
                     return true;
                 }
