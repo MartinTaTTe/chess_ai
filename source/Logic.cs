@@ -10,6 +10,7 @@ namespace source
         {
             return !(x < 0 || x > 7 || y < 0 || y > 7);
         }
+        
         public static bool IsCheck(Board board, bool whitePlayer) // whitePlayer is the player who threats the other's king
         {
             var arr = Threats(board, whitePlayer, true);
@@ -43,7 +44,7 @@ namespace source
             return list.ToArray();
         }
 
-        public static int[][] Threats(Board board, bool whitePlayer, bool enemy) // enemy is true if looking for threats, false if looking for guards
+        public static int[][] Threats(Board board, bool whitePlayer, bool enemy) // TODO: check if working properly, seems fishy -- enemy is true if looking for threats, false if looking for guards
         {
             int[] targetTile;
             List<int[]> list = new List<int[]>();
@@ -131,5 +132,15 @@ namespace source
             }
             return list.ToArray();
         }
+
+        public static int[] InputConverter(string input)
+        {
+            if (input.Length != 4 && !(input[0] >= 'a' && input[0] <= 'h' &&
+                input[1] >= '1' && input[1] <= '8' &&
+                input[2] >= 'a' && input[2] <= 'h' &&
+                input[3] >= '1' && input[3] <= '8'))
+                return new int[] { -1 };
+            else
+                return new int[] { input[0] - 97, 56 - input[1], input[2] - 97, 56 - input[3] };
     }
 }

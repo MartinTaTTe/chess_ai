@@ -39,34 +39,20 @@ namespace source
             else return null;
         }
 
-        private bool MakePlay(string input)
+        private bool MakePlay(int[] input)
         {
-            if (!(input[0] >= 'a' && input[0] <= 'h' &&
-                input[1] >= '1' && input[1] <= '8' &&
-                input[2] >= 'a' && input[2] <= 'h'&&
-                input[3] >= '1' && input[3] <= '8'))
-            {
-                return false;
-            }
-            else
-            {
-                int x_org = input[0] - 97;
-                int y_org = 56 - input[1];
-                int x_des = input[2] - 97;
-                int y_des = 56 - input[3];
-                if (OwnPiece(x_org, y_org))
+            if (OwnPiece(input[0], input[1]))
                 {
-                    if (Array.Exists(Logic.PossibleMoves(board, board.GetPieceAt(x_org, y_org)), c => c[0] == x_des && c[1] == y_des))
-                    {
-                        board.MovePiece(x_org, y_org, x_des, y_des);
-                        board.GetPieceAt(x_des, y_des).HasMoved();
-                        board.GetPieceAt(x_des, y_des).SetCoords(x_des, y_des);
-                        whiteTurn = !whiteTurn;
-                        return true;
-                    }
+                if (Array.Exists(Logic.PossibleMoves(board, board.GetPieceAt(x_org, y_org)), c => c[0] == x_des && c[1] == y_des))
+                {
+                    board.MovePiece(input[0], input[1], input[2], input[3]);
+                    board.GetPieceAt(input[2], input[3]).HasMoved();
+                    board.GetPieceAt(input[2], input[3]).SetCoords(input[2], input[3]);
+                    whiteTurn = !whiteTurn;
+                    return true;
                 }
-                return false;
             }
+            return false;
         }
 
         public string Action(string input)
@@ -83,13 +69,14 @@ namespace source
                     break;
                 default: 
                     {
-                        if (input.Length != 4)
+                        int[] play = Logic.InputConverter(input);
+                        if (play[0] == -1)
                         {
                             returns = unknown;
                         }
                         else
                         {
-                            if (!MakePlay(input))
+                            if (!MakePlay(play))
                                 returns = "You can't make this play.";
                             else returns = "Piece moved.";
                         }  
