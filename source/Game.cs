@@ -55,15 +55,30 @@ namespace source
 
         public string Action(string input)
         {
-            string unknown = "Unknown command. Check below:\nQ to quit\nR to reset\nMove by 4-character command in format: [a-h][1-8][a-h][1-8]";
+            string unknown = "Unknown command. Check below:\nQ to quit\nR to reset\nMove by 4-character command in format: [a-h][1-8][a-h][1-8]\nCL or CR to castle either to the left or to the right";
+            string invalid = "You can't make this play.";
             string returns = "Error, something failed in Game.Action";
             switch(input.ToLower())
             {
-                case "q": playing = false;
+                case "q":
+                    playing = false;
                     returns = "Quitting...";
                     break;
-                case "r": ResetGame();
+                case "r":
+                    ResetGame();
                     returns = "Board reset.";
+                    break;
+                case "cr":
+                    if (board.Castle(whiteTurn, false))
+                        returns = "Castle played.";
+                    else
+                        returns = invalid;
+                    break;
+                case "cl":
+                    if (board.Castle(whiteTurn, true))
+                        returns = "Castle played.";
+                    else
+                        returns = invalid;
                     break;
                 default: 
                     {
@@ -75,11 +90,19 @@ namespace source
                         else
                         {
                             if (!MakePlay(play))
-                                returns = "You can't make this play.";
-                            else returns = "Piece moved.";
+                                returns = invalid;
+                            else
+                                returns = "Piece moved.";
                         }  
                         break;
                     }
+            }
+            if (Logic.IsCheckMate(board, !whiteTurn))
+            {
+                playing = false;
+                if (whiteTurn)
+                    return "Black player wins!";
+                else return "White player wins!";
             }
             return returns + "\n";
         }
