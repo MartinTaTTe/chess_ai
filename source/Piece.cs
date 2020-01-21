@@ -18,6 +18,14 @@ namespace source
             hasMoved = false;
 
         }
+        public Piece(Piece piece)
+        {
+            x = piece.x;
+            y = piece.y;
+            isWhite = piece.isWhite;
+            hasMoved = piece.hasMoved;
+            type = piece.type;
+        }
         public int GetX()
         {
             return x;
@@ -91,6 +99,10 @@ namespace source
         {
             type = "pawn";
         }
+        public Pawn(Piece piece) : base(piece)
+        {
+
+        }
         public override int[][][] MovementPattern()
         {
             List<int[][]> list = new List<int[][]>();
@@ -125,7 +137,11 @@ namespace source
         {
             type = "rook";
         }
-        
+        public Rook(Piece piece) : base(piece)
+        {
+
+        }
+
         public override int[][][] MovementPattern()
         {
             List<int[][]> list = new List<int[][]>();
@@ -146,6 +162,10 @@ namespace source
         public Knight(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "knight";
+        }
+        public Knight(Piece piece) : base(piece)
+        {
+
         }
         public override int[][][] MovementPattern()
         {
@@ -176,6 +196,10 @@ namespace source
         {
             type = "bishop";
         }
+        public Bishop(Piece piece) : base(piece)
+        {
+
+        }
         public override int[][][] MovementPattern()
         {
             List<int[][]> list = new List<int[][]>();
@@ -196,6 +220,10 @@ namespace source
         public Queen(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "queen";
+        }
+        public Queen(Piece piece) : base(piece)
+        {
+
         }
         public override int[][][] MovementPattern()
         {
@@ -225,6 +253,10 @@ namespace source
         public King(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "king";
+        }
+        public King(Piece piece) : base(piece)
+        {
+
         }
         public override int[][][] MovementPattern()
         {

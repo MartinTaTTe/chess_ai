@@ -1,7 +1,0 @@
-namespace source
-{
-    class Player
-    {
-
-    }
-}

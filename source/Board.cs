@@ -9,7 +9,36 @@ namespace source
         {
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
-                    currentPosition[i, j] = board.currentPosition[i, j];
+                {
+                    if (board.IsOccupiedAt(i, j))
+                    {
+                        Piece piece = board.currentPosition[j, i];
+                        switch (piece.TypeStr())
+                        {
+                            case "pawn":
+                                currentPosition[j, i] = new Pawn(piece);
+                                break;
+                            case "rook":
+                                currentPosition[j, i] = new Rook(piece);
+                                break;
+                            case "knight":
+                                currentPosition[j, i] = new Knight(piece);
+                                break;
+                            case "bishop":
+                                currentPosition[j, i] = new Bishop(piece);
+                                break;
+                            case "queen":
+                                currentPosition[j, i] = new Queen(piece);
+                                break;
+                            case "king":
+                                currentPosition[j, i] = new King(piece);
+                                break;
+                            default:
+                                Console.WriteLine("Invalid piece type in Board.Board(board)");
+                                break;
+                        }
+                    }
+                }
         }
         public Board()
         {

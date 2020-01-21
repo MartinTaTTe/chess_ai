@@ -135,13 +135,14 @@ namespace source
 
         public static int[] InputConverter(string input)
         {
-            if (input.Length != 4 && !(input[0] >= 'a' && input[0] <= 'h' &&
+            if (input.Length != 4 && 
+                !(input[0] >= 'a' && input[0] <= 'h' &&
                 input[1] >= '1' && input[1] <= '8' &&
                 input[2] >= 'a' && input[2] <= 'h' &&
                 input[3] >= '1' && input[3] <= '8'))
                 return new int[] { -1 };
             else
                 return new int[] { input[0] - 97, 56 - input[1], input[2] - 97, 56 - input[3] };
-        }
+        } // CONFIRMED working
     }
 }

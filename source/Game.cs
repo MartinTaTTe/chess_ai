@@ -5,16 +5,30 @@ namespace source
 {
     class Game
     {
-        private Player white;
-        private Player black;
+        public readonly AI ai1;
+        public readonly AI ai2;
+        private readonly bool hasAi1;
+        private readonly bool hasAi2;
         private readonly Board board = new Board();
         private bool playing = true;
         private bool whiteTurn = true;
-        public Game(Player white_in, Player black_in, Board board_in)
+        public Game(Board board_in)
         {
-            white = white_in;
-            black = black_in;
             board = board_in;
+        }
+        public Game(Board board_in, AI ai1)
+        {
+            board = board_in;
+            this.ai1 = ai1;
+            hasAi1 = true;
+        }
+        public Game(Board board_in, AI ai1, AI ai2)
+        {
+            board = board_in;
+            this.ai1 = ai1;
+            this.ai2 = ai2;
+            hasAi1 = true;
+            hasAi2 = true;
         }
 
         public void ResetGame()
@@ -32,11 +46,20 @@ namespace source
             return playing;
         }
 
+        public bool HasPieceAt(int x, int y)
+        {
+            return board.IsOccupiedAt(x, y);
+        }
         public Piece PieceAt(int x, int y)
         {
             if (board.IsOccupiedAt(x, y))
                 return board.GetPieceAt(x, y);
-            else return null;
+            else
+            {
+                Console.WriteLine("Error in Game.PieceAt, returning null.");
+                Console.ReadKey();
+                return null;
+            }
         }
 
         private bool MakePlay(int[] input)
@@ -55,6 +78,18 @@ namespace source
 
         public string Action(string input)
         {
+            if (hasAi1 && ai1.white == whiteTurn)
+            {
+                board.MovePiece(ai1.MakePlay(board));
+                whiteTurn = !whiteTurn;
+                return "AI 1 played.";
+            }
+            else if (hasAi2 && ai2.white == whiteTurn)
+            {
+                board.MovePiece(ai2.MakePlay(board));
+                whiteTurn = !whiteTurn;
+                return "AI 2 played.";
+            }
             string unknown = "Unknown command. Check below:\nQ to quit\nR to reset\nMove by 4-character command in format: [a-h][1-8][a-h][1-8]\nCL or CR to castle either to the left or to the right";
             string invalid = "You can't make this play.";
             string returns = "Error, something failed in Game.Action";
@@ -97,13 +132,13 @@ namespace source
                         break;
                     }
             }
-            if (Logic.IsCheckMate(board, !whiteTurn))
+            /*if (Logic.IsCheckMate(board, !whiteTurn)) TODO: FIX GAME OVER LOGIC !!!!
             {
                 playing = false;
                 if (whiteTurn)
                     return "Black player wins!";
                 else return "White player wins!";
-            }
+            }*/
             return returns + "\n";
         }
     }
