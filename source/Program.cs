@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace source
 {
@@ -14,15 +15,16 @@ namespace source
             Game game = new Game(new Board(), new AI(true), new AI(false));
             View view = new View(game);
             string message;
-
-            Console.WriteLine(view.Show());
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            view.Show();
 
             while (game.Playing())
             {
-                message = game.Action(Console.ReadLine());
+                message = game.Action("p");
                 Console.Clear();
-                Console.WriteLine(view.Show());
+                view.Show();
                 Console.WriteLine(message);
+                Thread.Sleep(500);
             }
         }
 

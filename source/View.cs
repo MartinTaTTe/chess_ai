@@ -1,3 +1,5 @@
+using System;
+
 namespace source
 {
     class View
@@ -9,61 +11,71 @@ namespace source
 
         private readonly Game game;
 
-        public string Show()
+        public void Show()
         {
-            string returns = "  A  B  C  D  E  F  G  H \n";
-
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" A B C D E F G H");
             for (int j = 0; j < 8; j++)
             {
-                returns += 8 - j;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(8 - j);
                 for (int i = 0; i < 8; i++)
                 {
+                    if ((i + j) % 2 == 0)
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                    else
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                     if (!game.HasPieceAt(i, j))
+                        Console.Write("  ");
+                    else
                     {
-                        returns += "[ ]";
-                    } else
-                    {
-                        switch (game.PieceAt(i, j).TypeStr())
+                        Piece piece = game.PieceAt(i, j);
+                        if (piece.IsWhite())
+                            Console.ForegroundColor = ConsoleColor.White;
+                        else
+                            Console.ForegroundColor = ConsoleColor.Black;
+                        switch (piece.TypeStr())
                         {
                             case "pawn":
                                 {
-                                    returns += "[P]";
+                                    Console.Write("P ");
                                     break;
                                 }
                             case "rook":
                                 {
-                                    returns += "[R]";
+                                    Console.Write("R ");
                                     break;
                                 }
                             case "knight":
                                 {
-                                    returns += "[K]";
+                                    Console.Write("Kn");
                                     break;
                                 }
                             case "bishop":
                                 {
-                                    returns += "[B]";
+                                    Console.Write("B ");
                                     break;
                                 }
                             case "queen":
                                 {
-                                    returns += "[Q]";
+                                    Console.Write("Q ");
                                     break;
                                 }
                             case "king":
                                 {
-                                    returns += "[X]";
+                                    Console.Write("Ki");
                                     break;
                                 }
                             default: break;
                         }
                     }
-                    
+                    Console.BackgroundColor = ConsoleColor.DarkYellow;
+                    Console.ForegroundColor = ConsoleColor.Red;
                 }
-                returns += "\n";
+                Console.Write(8 - j);
+                Console.WriteLine();
             }
-
-            return returns;
+            Console.WriteLine(" A B C D E F G H");
         }
     }
 }
