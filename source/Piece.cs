@@ -24,7 +24,6 @@ namespace source
             y = piece.y;
             isWhite = piece.isWhite;
             hasMoved = piece.hasMoved;
-            type = piece.type;
         }
         public int GetX()
         {
@@ -101,7 +100,7 @@ namespace source
         }
         public Pawn(Piece piece) : base(piece)
         {
-
+            type = "pawn";
         }
         public override int[][][] MovementPattern()
         {
@@ -139,7 +138,7 @@ namespace source
         }
         public Rook(Piece piece) : base(piece)
         {
-
+            type = "rook";
         }
 
         public override int[][][] MovementPattern()
@@ -165,7 +164,7 @@ namespace source
         }
         public Knight(Piece piece) : base(piece)
         {
-
+            type = "knight";
         }
         public override int[][][] MovementPattern()
         {
@@ -198,7 +197,7 @@ namespace source
         }
         public Bishop(Piece piece) : base(piece)
         {
-
+            type = "bishop";
         }
         public override int[][][] MovementPattern()
         {
@@ -223,7 +222,7 @@ namespace source
         }
         public Queen(Piece piece) : base(piece)
         {
-
+            type = "queen";
         }
         public override int[][][] MovementPattern()
         {
@@ -256,7 +255,7 @@ namespace source
         }
         public King(Piece piece) : base(piece)
         {
-
+            type = "king";
         }
         public override int[][][] MovementPattern()
         {

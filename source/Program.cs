@@ -11,7 +11,7 @@ namespace source
 
         static void RunGame()
         {
-            Game game = new Game(new Board());//, new AI(true), new AI(false));
+            Game game = new Game(new Board(), new AI(true), new AI(false));
             View view = new View(game);
             string message;
 

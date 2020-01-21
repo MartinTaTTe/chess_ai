@@ -175,7 +175,11 @@ namespace source
 
         public void MovePiece(int x_org, int y_org, int x_des, int y_des)
         {
-            currentPosition[y_des, x_des] = currentPosition[y_org, x_org];
+            Piece piece = GetPieceAt(x_org, y_org);
+            if (piece.Type("pawn") && ((piece.IsWhite() && piece.GetY() == 1) || (!piece.IsWhite() && piece.GetY() == 6)))
+                currentPosition[y_des, x_des] = new Queen(currentPosition[y_org, x_org]);
+            else 
+                currentPosition[y_des, x_des] = currentPosition[y_org, x_org];
             currentPosition[y_org, x_org] = null;
             GetPieceAt(x_des, y_des).Moved();
             GetPieceAt(x_des, y_des).SetC(x_des, y_des);
