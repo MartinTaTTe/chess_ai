@@ -203,6 +203,10 @@ namespace source
         {
             return AfterMove(c_org[0], c_org[1], c_des[0], c_des[1]);
         }
+        public Board AfterMove(int[] c)
+        {
+            return AfterMove(c[0], c[1], c[2], c[3]);
+        }
 
         public void RemovePiece(int x, int y)
         {
