@@ -15,6 +15,58 @@ namespace source
         {
             ResetBoard();
         }
+        public Board(string str)
+        {
+            foreach (char c in str)
+            {
+                int i = 0;
+                switch (c)
+                {
+                    case 'r':
+                        currentPosition[i / 8, i % 8] = new Rook(true, i % 8, i / 8);
+                        break;
+                    case 'k':
+                        currentPosition[i / 8, i % 8] = new Knight(true, i % 8, i / 8);
+                        break;
+                    case 'b':
+                        currentPosition[i / 8, i % 8] = new Bishop(true, i % 8, i / 8);
+                        break;
+                    case 'q':
+                        currentPosition[i / 8, i % 8] = new Queen(true, i % 8, i / 8);
+                        break;
+                    case 'x':
+                        currentPosition[i / 8, i % 8] = new King(true, i % 8, i / 8);
+                        break;
+                    case 'p':
+                        currentPosition[i / 8, i % 8] = new Pawn(true, i % 8, i / 8);
+                        break;
+                    case 'R':
+                        currentPosition[i / 8, i % 8] = new Rook(false, i % 8, i / 8);
+                        break;
+                    case 'K':
+                        currentPosition[i / 8, i % 8] = new Knight(false, i % 8, i / 8);
+                        break;
+                    case 'B':
+                        currentPosition[i / 8, i % 8] = new Bishop(false, i % 8, i / 8);
+                        break;
+                    case 'Q':
+                        currentPosition[i / 8, i % 8] = new Queen(false, i % 8, i / 8);
+                        break;
+                    case 'X':
+                        currentPosition[i / 8, i % 8] = new King(false, i % 8, i / 8);
+                        break;
+                    case 'P':
+                        currentPosition[i / 8, i % 8] = new Pawn(false, i % 8, i / 8);
+                        break;
+                    case ' ':
+                        break;
+                    default:
+                        Console.WriteLine("Invalid character detected while constructing new board.");
+                        break;
+                }
+                i++;
+            }
+        }
 
         private static readonly Piece[,] startPosition = new Piece[8, 8]
         {
@@ -97,11 +149,15 @@ namespace source
             currentPosition[y_des, x_des] = currentPosition[y_org, x_org];
             currentPosition[y_org, x_org] = null;
             GetPieceAt(x_des, y_des).Moved();
-            GetPieceAt(x_des, y_des).SetCoords(x_des, y_des);
+            GetPieceAt(x_des, y_des).SetC(x_des, y_des);
         }
         public void MovePiece(int[] c_org, int[] c_des)
         {
             MovePiece(c_org[0], c_org[1], c_des[0], c_des[1]);
+        }
+        public void MovePiece(int[] c)
+        {
+            MovePiece(c[0], c[1], c[2], c[3]);
         }
 
         public Board AfterMove(int x_org, int y_org, int x_des, int y_des)

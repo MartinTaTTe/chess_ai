@@ -18,7 +18,7 @@ namespace source
                 returns += 8 - j;
                 for (int i = 0; i < 8; i++)
                 {
-                    if (game.PieceAt(i, j) == null)
+                    if (!game.HasPieceAt(i, j))
                     {
                         returns += "[ ]";
                     } else

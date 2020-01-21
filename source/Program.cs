@@ -6,7 +6,12 @@ namespace source
     {
         static void Main(string[] args)
         {
-            Game game = new Game(new Player(), new Player(), new Board());
+            RunGame();
+        }
+
+        static void RunGame()
+        {
+            Game game = new Game(new Board());//, new AI(true), new AI(false));
             View view = new View(game);
             string message;
 
@@ -19,6 +24,11 @@ namespace source
                 Console.WriteLine(view.Show());
                 Console.WriteLine(message);
             }
+        }
+
+        static void RunTest()
+        {
+
         }
     }
 }

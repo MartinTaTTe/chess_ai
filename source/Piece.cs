@@ -26,7 +26,7 @@ namespace source
         {
             return y;
         }
-        public void SetCoords(int x, int y)
+        public void SetC(int x, int y)
         {
             this.x = x;
             this.y = y;
