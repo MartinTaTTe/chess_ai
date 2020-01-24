@@ -138,7 +138,7 @@ namespace source
                         break;
                     }
             }
-            if (Logic.IsCheckMate(board, !whiteTurn)) //TODO: FIX GAME OVER LOGIC !!!!
+            if (Logic.IsCheckMate(board, !whiteTurn))
             {
                 playing = false;
                 if (whiteTurn)

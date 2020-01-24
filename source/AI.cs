@@ -4,6 +4,7 @@ namespace source
 {
     class AI
     {
+        private readonly Random rng = new Random();
         public readonly bool white;
         private readonly int depth;
 
@@ -28,6 +29,18 @@ namespace source
             int[] bestMove = new int[4];
             double max = 0;
             int[][] moves = Logic.AllPossibleMoves(board, white);
+            int[][] threats = Logic.Threats(board, white, true);
+            foreach (int[] t in threats)
+            {
+                int newMax = board.GetPieceAt(t[0], t[1]).Value() - board.GetPieceAt(t[2], t[3]).Value();
+                if (max < newMax)
+                {
+                    max = newMax;
+                    bestMove = t;
+                }
+                if (max != 0)
+                    return bestMove;
+            }
             foreach (int[] m in moves)
             {
                 Board newBoard = new Board(board.AfterMove(m));
@@ -38,7 +51,7 @@ namespace source
                     if (left == 0)
                     {
                         double newMax = ValueBoard(newNewBoard);
-                        if (max <= newMax)
+                        if (max < newMax)
                         {
                             max = newMax;
                             bestMove = m;
@@ -48,6 +61,8 @@ namespace source
                         bestMove = BestMove(newNewBoard, left - 1);
                 }
             }
+            if (bestMove == null || bestMove[3] == 0)
+                bestMove = moves[rng.Next(moves.Length)];
             return bestMove;
         }
 
@@ -61,18 +76,6 @@ namespace source
             foreach (Piece piece in board.PiecesOf(!white))
             {
                 returns -= piece.Value();
-            }
-            if (returns <= 0)
-            {
-                foreach (Piece piece in board.PiecesOf(white))
-                {
-                    int y;
-                    if (white)
-                        y = 20 + (8 - piece.GetY()) / 5;
-                    else
-                        y = 20 + piece.GetX() / 5;
-                    returns += piece.Value() * y;
-                }
             }
             return returns;
         }
