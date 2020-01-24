@@ -7,30 +7,38 @@ namespace source
     {
         static void Main(string[] args)
         {
-            RunGame();
+            RunGame(1000);
+            //RunTest();
         }
 
-        static void RunGame()
+        static void RunGame(int sleep)
         {
             Game game = new Game(new Board(), new AI(true), new AI(false));
             View view = new View(game);
             string message;
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            
             view.Show();
 
             while (game.Playing())
             {
-                message = game.Action("p");
-                Console.Clear();
+                Thread.Sleep(sleep);
+                message = game.Action("ai");
+                
                 view.Show();
                 Console.WriteLine(message);
-                Thread.Sleep(500);
             }
         }
 
         static void RunTest()
         {
+            Test test = new Test("xQ.R....b.P.....PP........p.PP....k.........P..................X");
+            View view = new View(new Game(test.board));
+            view.Show();
 
+            test.TestThreats(false, true);
+            test.TestAllPossibleMoves(true);
+            test.TestIsCheck(false);
+            test.TestIsCheckMate(false);
         }
     }
 }

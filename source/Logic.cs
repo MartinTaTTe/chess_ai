@@ -15,13 +15,13 @@ namespace source
         {
             var arr = Threats(board, whitePlayer, true);
             var arr2 = Array.Find(board.PiecesOf(!whitePlayer), p => p.Type("king")).GetC();
-            var ret = Array.Exists(arr, c => c[0] == arr2[0] && c[1] == arr2[1]);
+            var ret = Array.Exists(arr, c => c[2] == arr2[0] && c[3] == arr2[1]);
             return ret;
         }
 
         public static bool IsCheckMate(Board board, bool whitePlayer) // whitePlayer is the player who threats the other's king
         {
-            foreach (Piece piece in board.PiecesOf(whitePlayer))
+            foreach (Piece piece in board.PiecesOf(!whitePlayer))
             {
                 foreach (int[] move in PossibleMoves(board, piece))
                 {
@@ -32,7 +32,7 @@ namespace source
             return IsCheck(board, whitePlayer);
         }
 
-        public static int[][] AllPossibleMoves(Board board, bool whitePlayer) // array of possible moves [x_org][y_org][x_des][y_des]
+        public static int[][] AllPossibleMoves(Board board, bool whitePlayer) // returns array of possible moves [x_org][y_org][x_des][y_des]
         {
             List<int[]> list = new List<int[]>();
             foreach (Piece piece in board.PiecesOf(whitePlayer))
@@ -44,7 +44,7 @@ namespace source
             return list.ToArray();
         }
 
-        public static int[][] Threats(Board board, bool whitePlayer, bool enemy) // TODO: check if working properly, seems fishy -- enemy is true if looking for threats, false if looking for guards
+        public static int[][] Threats(Board board, bool whitePlayer, bool enemy) // enemy is true if looking for threats, false if looking for guards
         {
             int[] targetTile;
             List<int[]> list = new List<int[]>();
@@ -57,8 +57,8 @@ namespace source
                     for (int p = 1; p < paths; p++)
                     {
                         targetTile = piece.MovementPattern()[p][0];
-                        if (board.IsOccupiedAt(targetTile) && ((board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) ^ !enemy))
-                            list.Add(targetTile);
+                        if (board.IsOccupiedAt(targetTile) && (board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite() ^ !enemy))
+                            list.Add(new int[] { piece.GetX(), piece.GetY(), targetTile[0], targetTile[1] });
                     }
                 }
                 else
@@ -68,9 +68,13 @@ namespace source
                         for (int r = 0; r < piece.MovementPattern()[p].Length; r++)
                         {
                             targetTile = piece.MovementPattern()[p][r];
-                            if (board.IsOccupiedAt(targetTile) && ((board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite()) ^ !enemy))
+                            if (board.IsOccupiedAt(targetTile))
                             {
-                                list.Add(targetTile);
+                                if (board.GetPieceAt(targetTile).IsWhite() ^ piece.IsWhite() ^ !enemy)
+                                {
+                                    list.Add(new int[] { piece.GetX(), piece.GetY(), targetTile[0], targetTile[1] });
+                                    break;
+                                }
                                 break;
                             }
                         }
