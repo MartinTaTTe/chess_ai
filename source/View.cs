@@ -13,6 +13,8 @@ namespace source
 
         public void Show()
         {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(" A B C D E F G H");
             for (int j = 0; j < 8; j++)

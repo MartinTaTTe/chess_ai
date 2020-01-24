@@ -34,7 +34,7 @@ namespace source
         public void ResetGame()
         {
             board.ResetBoard();
-        }
+        } 
 
         public bool OwnPiece(int x, int y)
         {
@@ -78,18 +78,24 @@ namespace source
 
         public string Action(string input)
         {
-            if (hasAi1 && ai1.white == whiteTurn)
+            if (input == "ai")
             {
-                board.MovePiece(ai1.MakePlay(board));
-                whiteTurn = !whiteTurn;
-                return "AI 1 played.";
+                if (hasAi1 && ai1.white == whiteTurn)
+                {
+                    Console.WriteLine("AI 1 thinking...");
+                    board.MovePiece(ai1.MakePlay(board));
+                    whiteTurn = !whiteTurn;
+                    return "AI 1 played.";
+                }
+                else if (hasAi2 && ai2.white == whiteTurn)
+                {
+                    Console.WriteLine("AI 2 thinking...");
+                    board.MovePiece(ai2.MakePlay(board));
+                    whiteTurn = !whiteTurn;
+                    return "AI 2 played.";
+                }
             }
-            else if (hasAi2 && ai2.white == whiteTurn)
-            {
-                board.MovePiece(ai2.MakePlay(board));
-                whiteTurn = !whiteTurn;
-                return "AI 2 played.";
-            }
+            
             string unknown = "Unknown command. Check below:\nQ to quit\nR to reset\nMove by 4-character command in format: [a-h][1-8][a-h][1-8]\nCL or CR to castle either to the left or to the right";
             string invalid = "You can't make this play.";
             string returns = "Error, something failed in Game.Action";

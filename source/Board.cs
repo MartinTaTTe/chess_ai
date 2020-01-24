@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace source
 {
@@ -46,9 +47,10 @@ namespace source
         }
         public Board(string str)
         {
+
+            int i = 0;
             foreach (char c in str)
             {
-                int i = 0;
                 switch (c)
                 {
                     case 'r':
@@ -87,7 +89,7 @@ namespace source
                     case 'P':
                         currentPosition[i / 8, i % 8] = new Pawn(false, i % 8, i / 8);
                         break;
-                    case ' ':
+                    case '.':
                         break;
                     default:
                         Console.WriteLine("Invalid character detected while constructing new board.");
