@@ -9,6 +9,7 @@ namespace source
         protected bool isWhite;
         protected bool hasMoved;
         protected string type;
+        protected int value;
 
         public Piece(bool isWhite, int x, int y)
         {
@@ -49,6 +50,10 @@ namespace source
         public bool HasMoved()
         {
             return hasMoved;
+        }
+        public int Value()
+        {
+            return value;
         }
         protected int[] NextTileInDirection(int x_pre, int y_pre, int x_dif, int y_dif)
         {
@@ -97,10 +102,12 @@ namespace source
         public Pawn(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "pawn";
+            value = 1;
         }
         public Pawn(Piece piece) : base(piece)
         {
             type = "pawn";
+            value = 1;
         }
         public override int[][][] MovementPattern()
         {
@@ -135,10 +142,12 @@ namespace source
         public Rook(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "rook";
+            value = 5;
         }
         public Rook(Piece piece) : base(piece)
         {
             type = "rook";
+            value = 5;
         }
 
         public override int[][][] MovementPattern()
@@ -161,10 +170,12 @@ namespace source
         public Knight(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "knight";
+            value = 3;
         }
         public Knight(Piece piece) : base(piece)
         {
             type = "knight";
+            value = 3;
         }
         public override int[][][] MovementPattern()
         {
@@ -194,10 +205,12 @@ namespace source
         public Bishop(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "bishop";
+            value = 3;
         }
         public Bishop(Piece piece) : base(piece)
         {
             type = "bishop";
+            value = 3;
         }
         public override int[][][] MovementPattern()
         {
@@ -219,10 +232,12 @@ namespace source
         public Queen(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "queen";
+            value = 9;
         }
         public Queen(Piece piece) : base(piece)
         {
             type = "queen";
+            value = 9;
         }
         public override int[][][] MovementPattern()
         {
@@ -252,10 +267,12 @@ namespace source
         public King(bool white, int x_in, int y_in) : base(white, x_in, y_in)
         {
             type = "king";
+            value = 1000;
         }
         public King(Piece piece) : base(piece)
         {
             type = "king";
+            value = 1000;
         }
         public override int[][][] MovementPattern()
         {

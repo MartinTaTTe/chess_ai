@@ -21,15 +21,12 @@ namespace source
         public int[] MakePlay(Board board)
         {
             return BestMove(board, depth);
-            /*int[][] plays = Logic.AllPossibleMoves(board, white);
-            Random rng = new Random();
-            return plays[rng.Next(plays.Length)];*/
         }
 
         private int[] BestMove(Board board, int left)
         {
             int[] bestMove = new int[4];
-            int max = 0;
+            double max = 0;
             int[][] moves = Logic.AllPossibleMoves(board, white);
             foreach (int[] m in moves)
             {
@@ -40,8 +37,12 @@ namespace source
                     Board newNewBoard = new Board(newBoard.AfterMove(e));
                     if (left == 0)
                     {
-                        if (max <= ValueBoard(newNewBoard))
-                            bestMove = e;
+                        double newMax = ValueBoard(newNewBoard);
+                        if (max <= newMax)
+                        {
+                            max = newMax;
+                            bestMove = m;
+                        }
                     }
                     else
                         bestMove = BestMove(newNewBoard, left - 1);
@@ -50,11 +51,31 @@ namespace source
             return bestMove;
         }
 
-        private int ValueBoard(Board board) // TODO IMPLEMENT
+        private double ValueBoard(Board board)
         {
-            int returns = 0;
-            returns = board.PiecesOf(white).Length - board.PiecesOf(!white).Length;
+            double returns = 0;
+            foreach (Piece piece in board.PiecesOf(white))
+            {
+                returns += piece.Value();
+            }
+            foreach (Piece piece in board.PiecesOf(!white))
+            {
+                returns -= piece.Value();
+            }
+            if (returns <= 0)
+            {
+                foreach (Piece piece in board.PiecesOf(white))
+                {
+                    int y;
+                    if (white)
+                        y = 20 + (8 - piece.GetY()) / 5;
+                    else
+                        y = 20 + piece.GetX() / 5;
+                    returns += piece.Value() * y;
+                }
+            }
             return returns;
         }
+
     }
 }
