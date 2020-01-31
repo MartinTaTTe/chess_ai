@@ -13,18 +13,20 @@ namespace source
 
         static void RunGame(int sleep)
         {
-            Game game = new Game(new Board(), new AI(true), new AI(false));
+            Game game = new Game(new Board(), new AI(true, 1), new AI(false));
             View view = new View(game);
             string message;
-            
-            view.Show();
+
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            Console.Clear();
 
             while (game.Playing())
             {
-                Thread.Sleep(sleep);
-                message = game.Action("ai");
-                
                 view.Show();
+                Thread.Sleep(sleep);
+                message = game.Action(Console.ReadLine());
+                
+                
                 Console.WriteLine(message);
             }
         }

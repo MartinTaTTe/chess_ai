@@ -28,6 +28,7 @@ namespace source
         {
             int[] bestMove = new int[4];
             double max = 0;
+            double min = 0;
             int[][] moves = Logic.AllPossibleMoves(board, white);
             int[][] threats = Logic.Threats(board, white, true);
             foreach (int[] t in threats)
@@ -44,24 +45,39 @@ namespace source
             foreach (int[] m in moves)
             {
                 Board newBoard = new Board(board.AfterMove(m));
+                if (Logic.IsCheckMate(newBoard, white))
+                {
+                    return m;
+                }
+                if (ValueBoard(board) > ValueBoard(newBoard))
+                {
+                    continue;
+                }
                 int[][] enemyMoves = Logic.AllPossibleMoves(newBoard, !white);
+
                 foreach (int[] e in enemyMoves)
                 {
                     Board newNewBoard = new Board(newBoard.AfterMove(e));
+                    if (ValueBoard(board) > ValueBoard(newNewBoard))
+                    {
+                        continue;
+                    }
                     if (left == 0)
                     {
-                        double newMax = ValueBoard(newNewBoard);
-                        if (max < newMax)
-                        {
-                            max = newMax;
-                            bestMove = m;
-                        }
+                        double newMin = ValueBoard(newNewBoard);
+                        if (newMin <= min)
+                            min = newMin;
                     }
                     else
                         bestMove = BestMove(newNewBoard, left - 1);
                 }
+                if (max < min)
+                {
+                    max = min;
+                    bestMove = m;
+                }
             }
-            if (bestMove == null || bestMove[3] == 0)
+            if (bestMove == null)
                 bestMove = moves[rng.Next(moves.Length)];
             return bestMove;
         }

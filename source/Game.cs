@@ -34,6 +34,7 @@ namespace source
         public void ResetGame()
         {
             board.ResetBoard();
+            Console.WriteLine("Board reset.");
         } 
 
         public bool OwnPiece(int x, int y)
@@ -107,7 +108,6 @@ namespace source
                     break;
                 case "r":
                     ResetGame();
-                    returns = "Board reset.";
                     break;
                 case "cr":
                     if (board.Castle(whiteTurn, false))
